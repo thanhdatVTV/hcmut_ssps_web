@@ -1,3 +1,4 @@
+
 import { Modal, Button } from "react-bootstrap";
 import { deleteUser } from "../services/UserService";
 import { toast } from "react-toastify";
@@ -6,14 +7,14 @@ const ModalConfirm = (props) => {
     const { show, handleClose, dataUserDelete, handleDeleteUserFromModal } = props;
 
     const confirmDelete = async () => {
-        let res = await deleteUser(dataUserDelete.id);
+        let res = await deleteUser(dataUserDelete.id)
         if (res && +res.statusCode === 204) {
             toast.success("Delete user succeed!");
             handleClose();
             handleDeleteUserFromModal(dataUserDelete);
         }
         else {
-            toast.error("error delete user!")
+            toast.error("Error delete")
         }
     }
     return (
@@ -30,7 +31,9 @@ const ModalConfirm = (props) => {
                 <Modal.Body>
                     <div className="body-add-new">
                         This action can't be undone!
-                        Do want to delete this user,
+
+                        Do eant to delete thus user?
+                        <br />
                         <b>email = {dataUserDelete.email}?</b>
                     </div>
                 </Modal.Body>
