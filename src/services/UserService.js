@@ -1,11 +1,11 @@
 import axios from '../services/customize-axios';
 
-const fetchAllUser = (page) => {
-    return axios.get(`/api/users?page=${page}`);
+const fetchAllUser = (keyword, pageNumber, perPage) => {
+    return axios.get(`/api/User/get-list-user?keyword=${keyword}&pageNumber=${pageNumber}&per_page=${perPage}`);
 }
 
-const postCreateUser = (name, job) => {
-    return axios.post("/api/users", { name, job });
+const postCreateUser = (codeId, lastName, firstName, fullName, dateOfBirth, facultyName, courseName, type) => {
+    return axios.post("/api/User", { codeId, lastName, firstName, fullName, dateOfBirth, facultyName, courseName, type });
 }
 
 const putUpdateUser = (name, job) => {
@@ -16,8 +16,8 @@ const deleteUser = (id) => {
     return axios.delete(`/api/user/${id}`)
 }
 
-const loginApi = (email, password) => {
-    return axios.post("/api/login", { email, password });
+const loginApi = (username, password) => {
+    return axios.get(`/api/User/login?userName=${username}&passWord=${password}`);
 }
 
 export { fetchAllUser, postCreateUser, putUpdateUser, deleteUser, loginApi };

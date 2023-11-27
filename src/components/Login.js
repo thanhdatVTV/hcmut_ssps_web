@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginApi } from "../services/UserService";
+import { loginApi, postCreateUser } from "../services/UserService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -7,7 +7,7 @@ import { useEffect } from "react";
 const Login = () => {
     const navigate = useNavigate();
 
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [isShowPassword, setIsShowPassword] = useState(false);
 
@@ -21,14 +21,15 @@ const Login = () => {
     }, []);
 
     const handleLogin = async () => {
-        if (!email || !password) {
-            toast.error("Email/Password is required");
+        if (!username || !password) {
+            toast.error("Username/Password is required");
             return;
         }
         setLoadingApi(true);
-        let res = await loginApi(email, password);
-        if (res && res.token) {
-            localStorage.setItem("token", res.token)
+        let res = await loginApi(username, password);
+        if (res) {
+            // localStorage.setItem("token", res.token)
+            await postCreateUser()
             navigate("/")
         }
         else {
@@ -42,12 +43,12 @@ const Login = () => {
     return (<>
         <div className="login-container col-12 col-sm-4">
             <div className="title">Log in</div>
-            <div className="text">Email or username (eve.holt@reqres.in)</div>
+            <div className="text">Email or username (username@hcmut.edu.vn)</div>
             <input
                 type="text"
                 placeholder="Email or username..."
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
             />
             <div className="input-2">
                 <input
@@ -62,8 +63,8 @@ const Login = () => {
                 ></i>
             </div>
             <button
-                className={email && password ? "active" : ""}
-                disabled={email && password ? false : true}
+                className={username && password ? "active" : ""}
+                disabled={username && password ? false : true}
                 onClick={() => handleLogin()}
             >{loadingApi && <i class="fa-solid fa-sync fa-spin"></i>}&nbsp;Login
             </button>

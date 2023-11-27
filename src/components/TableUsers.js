@@ -41,26 +41,27 @@ const TableUsers = (props) => {
     const handleEditUserFromModal = (user) => {
         let cloneListUsers = _.cloneDeep(listUsers);
         let index = listUsers.findIndex(item => item.id === user.id);
-        cloneListUsers[index].first_name = user.first_name;
+        cloneListUsers[index].firstName = user.firstName;
         setListUsers(cloneListUsers);
     }
 
     useEffect(() => {
         //call api
-        getUsers(1);
+        getUsers("",1,6);
     }, [])
 
-    const getUsers = async (page) => {
-        let res = await fetchAllUser(page);
-        if (res && res.data) {
-            setTotalUsers(res.total)
-            setTotalPages(res.total_pages)
-            setListUsers(res.data)
+    const getUsers = async (keyword, page, perPage) => {
+        let res = await fetchAllUser(keyword, page, perPage);
+        if (res && res.response) {
+            setTotalUsers(res.response.total)
+            setTotalPages(res.response.totalPages)
+            setListUsers(res.response.users)
         }
+
     }
 
     const handlePageClick = (event) => {
-        getUsers(+event.selected + 1)
+        getUsers({ page: +event.selected + 1 })
     }
 
     const handleEditUser = (user) => {
@@ -92,11 +93,11 @@ const TableUsers = (props) => {
         let term = event.target.value;
         if (term) {
             let cloneListUsers = _.cloneDeep(listUsers);
-            cloneListUsers = cloneListUsers.filter(item => item.email.includes(term))
+            cloneListUsers = cloneListUsers.filter(item => item.fullName.includes(term))
             setListUsers(cloneListUsers);
         }
         else {
-            getUsers(1);
+            getUsers("",1,6);
         }
     }, 500)
 
@@ -113,45 +114,146 @@ const TableUsers = (props) => {
                     onChange={(event) => handleSearch(event)}
                 />
             </div>
+
             <Table striped bordered hover>
                 <thead>
                     <tr>
+                        <th>
+                            <div className='sort-header'>
+                                <span>Role</span>
+                                <span>
+                                    <i
+                                        className="fa-solid fa-arrow-down-long"
+                                        onClick={() => handleSort("desc", "type")}
+                                    >
+                                    </i>
+                                    <i
+                                        className="fa-solid fa-arrow-up-long"
+                                        onClick={() => handleSort("asc", "type")}
+                                    >
+                                    </i>
+                                </span>
+                            </div>
+                        </th>
                         <th>
                             <div className='sort-header'>
                                 <span>ID</span>
                                 <span>
                                     <i
                                         className="fa-solid fa-arrow-down-long"
-                                        onClick={() => handleSort("desc", "id")}
+                                        onClick={() => handleSort("desc", "codeId")}
                                     >
                                     </i>
                                     <i
                                         className="fa-solid fa-arrow-up-long"
-                                        onClick={() => handleSort("asc", "id")}
+                                        onClick={() => handleSort("asc", "codeId")}
                                     >
                                     </i>
                                 </span>
                             </div>
                         </th>
-                        <th>Email</th>
                         <th>
                             <div className='sort-header'>
                                 <span>First Name</span>
                                 <span>
                                     <i
                                         className="fa-solid fa-arrow-down-long"
-                                        onClick={() => handleSort("desc", "first_name")}
+                                        onClick={() => handleSort("desc", "firstName")}
                                     >
                                     </i>
                                     <i
                                         className="fa-solid fa-arrow-up-long"
-                                        onClick={() => handleSort("asc", "first_name")}
+                                        onClick={() => handleSort("asc", "firstName")}
                                     >
                                     </i>
                                 </span>
                             </div>
                         </th>
-                        <th>Last Name</th>
+                        <th>
+                            <div className='sort-header'>
+                                <span>Last Name</span>
+                                <span>
+                                    <i
+                                        className="fa-solid fa-arrow-down-long"
+                                        onClick={() => handleSort("desc", "lastName")}
+                                    >
+                                    </i>
+                                    <i
+                                        className="fa-solid fa-arrow-up-long"
+                                        onClick={() => handleSort("asc", "lastName")}
+                                    >
+                                    </i>
+                                </span>
+                            </div>
+                        </th>
+                        <th>
+                            <div className='sort-header'>
+                                <span>Full Name</span>
+                                <span>
+                                    <i
+                                        className="fa-solid fa-arrow-down-long"
+                                        onClick={() => handleSort("desc", "fullName")}
+                                    >
+                                    </i>
+                                    <i
+                                        className="fa-solid fa-arrow-up-long"
+                                        onClick={() => handleSort("asc", "fullName")}
+                                    >
+                                    </i>
+                                </span>
+                            </div>
+                        </th>
+                        <th>
+                            <div className='sort-header'>
+                                <span>Date of Birth</span>
+                                <span>
+                                    <i
+                                        className="fa-solid fa-arrow-down-long"
+                                        onClick={() => handleSort("desc", "dateOfBirth")}
+                                    >
+                                    </i>
+                                    <i
+                                        className="fa-solid fa-arrow-up-long"
+                                        onClick={() => handleSort("asc", "dateOfBirth")}
+                                    >
+                                    </i>
+                                </span>
+                            </div>
+                        </th>
+                        <th>
+                            <div className='sort-header'>
+                                <span>Faculty</span>
+                                <span>
+                                    <i
+                                        className="fa-solid fa-arrow-down-long"
+                                        onClick={() => handleSort("desc", "facultyName")}
+                                    >
+                                    </i>
+                                    <i
+                                        className="fa-solid fa-arrow-up-long"
+                                        onClick={() => handleSort("asc", "facultyName")}
+                                    >
+                                    </i>
+                                </span>
+                            </div>
+                        </th>
+                        <th>
+                            <div className='sort-header'>
+                                <span>Course</span>
+                                <span>
+                                    <i
+                                        className="fa-solid fa-arrow-down-long"
+                                        onClick={() => handleSort("desc", "courseName")}
+                                    >
+                                    </i>
+                                    <i
+                                        className="fa-solid fa-arrow-up-long"
+                                        onClick={() => handleSort("asc", "courseName")}
+                                    >
+                                    </i>
+                                </span>
+                            </div>
+                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -160,10 +262,16 @@ const TableUsers = (props) => {
                         listUsers.map((item, index) => {
                             return (
                                 <tr key={`users-${index}`}>
-                                    <td>{item.id}</td>
-                                    <td>{item.email}</td>
-                                    <td>{item.first_name}</td>
-                                    <td>{item.last_name}</td>
+                                    {item.type 
+                                    ? <td>Teacher</td>
+                                    : <td>Student</td> }
+                                    <td>{item.codeId}</td>
+                                    <td>{item.firstName}</td>
+                                    <td>{item.lastName}</td>
+                                    <td>{item.fullName}</td>
+                                    <td>{item.dateOfBirth}</td>
+                                    <td>{item.facultyName}</td>
+                                    <td>{item.courseName}</td>
                                     <td>
                                         <button
                                             className='btn btn-warning mx-3'

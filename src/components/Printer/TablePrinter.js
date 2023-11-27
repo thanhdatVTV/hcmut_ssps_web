@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import { getFileTypeList } from '../../services/FileTypeService';
+import { getPrinterList } from '../../services/PrinterService';
 import ReactPaginate from 'react-paginate';
 import ModalAddNew from './ModalAddNew';
 import ModalEdit from './ModalEdit';
@@ -9,7 +9,7 @@ import '../TableUser.scss'
 import _, { debounce } from "lodash"
 
 
-const TableFileType = (props) => {
+const TablePrinter = (props) => {
 
     const [listFileType, setListFileType] = useState([]);
     const [totalFileTypes, setTotalFileTypes] = useState(0);
@@ -36,12 +36,15 @@ const TableFileType = (props) => {
 
     const handleUpdateTable = (fileType) => {
         setListFileType([fileType, ...listFileType]);
+
     }
 
     const handleEditFileTypeFromModal = (fileType) => {
         let cloneListFileTypes = _.cloneDeep(listFileType);
         let index = listFileType.findIndex(item => item.id === fileType.id);
-        cloneListFileTypes[index].typeName = fileType.typeName;
+        cloneListFileTypes[index].brand = fileType.brand;
+        cloneListFileTypes[index].printerModel = fileType.printerModel;
+        cloneListFileTypes[index].description = fileType.description;
         setListFileType(cloneListFileTypes);
     }
 
@@ -51,12 +54,12 @@ const TableFileType = (props) => {
     }, [])
 
     const getFileTypes = async (keyword, page, perPage) => {
-        let res = await getFileTypeList(keyword, page, perPage);
+        let res = await getPrinterList(keyword, page, perPage);
         if (res && res.response) {
             setTotalFileTypes(res.response.total)
             setTotalPages(res.response.totalPages)
-            setListFileType(res.response.fileTypes)
-            // console.log(res)
+            setListFileType(res.response.printers)
+            // console.log(res.response)
         }
     }
 
@@ -93,7 +96,7 @@ const TableFileType = (props) => {
         let term = event.target.value;
         if (term) {
             let cloneListFileTypes = _.cloneDeep(listFileType);
-            cloneListFileTypes = cloneListFileTypes.filter(item => item.typeName.includes(term))
+            cloneListFileTypes = cloneListFileTypes.filter(item => item.brand.includes(term))
             setListFileType(cloneListFileTypes);
         }
         else {
@@ -104,8 +107,8 @@ const TableFileType = (props) => {
     return (
         <>
             <div className="my-3 add-new">
-                <span><b>List file types:</b></span>
-                <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add new file type</button>
+                <span><b>List printer:</b></span>
+                <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add new printer</button>
             </div>
             <div className='col-4 my-3'>
                 <input
@@ -136,16 +139,50 @@ const TableFileType = (props) => {
                         </th>
                         <th>
                             <div className='sort-header'>
-                                <span>File Type Name</span>
+                                <span>Brand</span>
                                 <span>
                                     <i
                                         className="fa-solid fa-arrow-down-long"
-                                        onClick={() => handleSort("desc", "typeName")}
+                                        onClick={() => handleSort("desc", "brand")}
                                     >
                                     </i>
                                     <i
                                         className="fa-solid fa-arrow-up-long"
-                                        onClick={() => handleSort("asc", "typeName")}
+                                        onClick={() => handleSort("asc", "brand")}
+                                    >
+                                    </i>
+                                </span>
+                            </div>
+                        </th>
+                        <th>
+                            <div className='sort-header'>
+                                <span>Model</span>
+                                <span>
+                                    <i
+                                        className="fa-solid fa-arrow-down-long"
+                                        onClick={() => handleSort("desc", "printerModel")}
+                                    >
+                                    </i>
+                                    <i
+                                        className="fa-solid fa-arrow-up-long"
+                                        onClick={() => handleSort("asc", "printerModel")}
+                                    >
+                                    </i>
+                                </span>
+                            </div>
+                        </th>
+                        <th>
+                            <div className='sort-header'>
+                                <span>Description</span>
+                                <span>
+                                    <i
+                                        className="fa-solid fa-arrow-down-long"
+                                        onClick={() => handleSort("desc", "description")}
+                                    >
+                                    </i>
+                                    <i
+                                        className="fa-solid fa-arrow-up-long"
+                                        onClick={() => handleSort("asc", "description")}
                                     >
                                     </i>
                                 </span>
@@ -160,7 +197,9 @@ const TableFileType = (props) => {
                             return (
                                 <tr key={`users-${index}`}>
                                     <td>{item.id}</td>
-                                    <td>{item.typeName}</td>
+                                    <td>{item.brand}</td>
+                                    <td>{item.printerModel}</td>
+                                    <td>{item.description}</td>
                                     <td>
                                         <button
                                             className='btn btn-warning mx-3'
@@ -216,4 +255,4 @@ const TableFileType = (props) => {
         </>)
 }
 
-export default TableFileType;
+export default TablePrinter;

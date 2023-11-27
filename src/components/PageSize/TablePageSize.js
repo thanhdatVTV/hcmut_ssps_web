@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Table from 'react-bootstrap/Table';
-import { getFileTypeList } from '../../services/FileTypeService';
+import { getPageSizeList } from '../../services/PageSizeService';
 import ReactPaginate from 'react-paginate';
 import ModalAddNew from './ModalAddNew';
 import ModalEdit from './ModalEdit';
@@ -9,7 +9,7 @@ import '../TableUser.scss'
 import _, { debounce } from "lodash"
 
 
-const TableFileType = (props) => {
+const TablePageSize = (props) => {
 
     const [listFileType, setListFileType] = useState([]);
     const [totalFileTypes, setTotalFileTypes] = useState(0);
@@ -36,12 +36,13 @@ const TableFileType = (props) => {
 
     const handleUpdateTable = (fileType) => {
         setListFileType([fileType, ...listFileType]);
+
     }
 
     const handleEditFileTypeFromModal = (fileType) => {
         let cloneListFileTypes = _.cloneDeep(listFileType);
         let index = listFileType.findIndex(item => item.id === fileType.id);
-        cloneListFileTypes[index].typeName = fileType.typeName;
+        cloneListFileTypes[index].pageSizeName = fileType.pageSizeName;
         setListFileType(cloneListFileTypes);
     }
 
@@ -51,12 +52,12 @@ const TableFileType = (props) => {
     }, [])
 
     const getFileTypes = async (keyword, page, perPage) => {
-        let res = await getFileTypeList(keyword, page, perPage);
+        let res = await getPageSizeList(keyword, page, perPage);
         if (res && res.response) {
             setTotalFileTypes(res.response.total)
             setTotalPages(res.response.totalPages)
-            setListFileType(res.response.fileTypes)
-            // console.log(res)
+            setListFileType(res.response.pageSizes)
+            // console.log(res.response)
         }
     }
 
@@ -93,7 +94,7 @@ const TableFileType = (props) => {
         let term = event.target.value;
         if (term) {
             let cloneListFileTypes = _.cloneDeep(listFileType);
-            cloneListFileTypes = cloneListFileTypes.filter(item => item.typeName.includes(term))
+            cloneListFileTypes = cloneListFileTypes.filter(item => item.pageSizeName.includes(term))
             setListFileType(cloneListFileTypes);
         }
         else {
@@ -104,8 +105,8 @@ const TableFileType = (props) => {
     return (
         <>
             <div className="my-3 add-new">
-                <span><b>List file types:</b></span>
-                <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add new file type</button>
+                <span><b>List page size:</b></span>
+                <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add new page size</button>
             </div>
             <div className='col-4 my-3'>
                 <input
@@ -136,16 +137,16 @@ const TableFileType = (props) => {
                         </th>
                         <th>
                             <div className='sort-header'>
-                                <span>File Type Name</span>
+                                <span>Page size Name</span>
                                 <span>
                                     <i
                                         className="fa-solid fa-arrow-down-long"
-                                        onClick={() => handleSort("desc", "typeName")}
+                                        onClick={() => handleSort("desc", "pageSizeName")}
                                     >
                                     </i>
                                     <i
                                         className="fa-solid fa-arrow-up-long"
-                                        onClick={() => handleSort("asc", "typeName")}
+                                        onClick={() => handleSort("asc", "pageSizeName")}
                                     >
                                     </i>
                                 </span>
@@ -160,7 +161,7 @@ const TableFileType = (props) => {
                             return (
                                 <tr key={`users-${index}`}>
                                     <td>{item.id}</td>
-                                    <td>{item.typeName}</td>
+                                    <td>{item.pageSizeName}</td>
                                     <td>
                                         <button
                                             className='btn btn-warning mx-3'
@@ -216,4 +217,4 @@ const TableFileType = (props) => {
         </>)
 }
 
-export default TableFileType;
+export default TablePageSize;
