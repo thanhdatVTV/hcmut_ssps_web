@@ -4,51 +4,51 @@ import { postCreateUser } from "../services/UserService";
 import { toast } from 'react-toastify';
 
 const ModalAddNew = (props) => {
-    const { show, handleClose, handleUpdateTable } = props;
-    const [codeId, setCodeId] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [fullName, setFullName] = useState("");
-    const [dateOfBirth, setDateOfBirth] = useState("");
-    const [facultyName, setFacultyName] = useState("");
-    const [courseName, setCourseName] = useState("");
-    const [type, setType] = useState("");
+    // const { show, handleClose, handleUpdateTable } = props;
+    // const [codeId, setCodeId] = useState("");
+    // const [firstName, setFirstName] = useState("");
+    // const [lastName, setLastName] = useState("");
+    // const [fullName, setFullName] = useState("");
+    // const [dateOfBirth, setDateOfBirth] = useState("");
+    // const [facultyName, setFacultyName] = useState("");
+    // const [courseName, setCourseName] = useState("");
+    // const [type, setType] = useState("");
 
-    const handleSaveUser = async () => {
-        let res = await postCreateUser(codeId, lastName, firstName, fullName, dateOfBirth, facultyName, courseName, type);
-        console.log(res);
-        if (res) {
-            handleClose();
-            setCodeId('');
-            setFirstName('');
-            setLastName('');
-            setFullName('');
-            setDateOfBirth('');
-            setFaculty('');
-            setCourse('');
-            setType('');
-            toast.success('A User is created succeed!')
-            let tmpCodeId = res.response.type ? res.response.studentId : res.response.teacherId;
-            handleUpdateTable({ 
-                codeId: tmpCodeId,
-                firstName: res.response.firstName, 
-                lastName: res.response.lastName, 
-                fullName: res.response.fullName, 
-                dateOfBirth: res.response.dateOfBirth, 
-                facultyName: res.response.facultyName, 
-                courseName: res.response.courseName, 
-                type: res.response.type
-            });
-            //success
-        }
-        else {
-            //error
-            toast.success('A User is created error!')
-        }
-    }
+    // const handleSaveUser = async () => {
+    //     let res = await postCreateUser(codeId, lastName, firstName, fullName, dateOfBirth, facultyName, courseName, type);
+    //     console.log(res);
+    //     if (res) {
+    //         handleClose();
+    //         setCodeId('');
+    //         setFirstName('');
+    //         setLastName('');
+    //         setFullName('');
+    //         setDateOfBirth('');
+    //         setFaculty('');
+    //         setCourse('');
+    //         setType('');
+    //         toast.success('A User is created succeed!')
+    //         let tmpCodeId = res.response.type ? res.response.studentId : res.response.teacherId;
+    //         handleUpdateTable({ 
+    //             codeId: tmpCodeId,
+    //             firstName: res.response.firstName, 
+    //             lastName: res.response.lastName, 
+    //             fullName: res.response.fullName, 
+    //             dateOfBirth: res.response.dateOfBirth, 
+    //             facultyName: res.response.facultyName, 
+    //             courseName: res.response.courseName, 
+    //             type: res.response.type
+    //         });
+    //         //success
+    //     }
+    //     else {
+    //         //error
+    //         toast.success('A User is created error!')
+    //     }
+    // }
     return (
         <>
-            <Modal
+            {/* <Modal
                 show={show}
                 onHide={handleClose}
                 backdrop="static"
@@ -138,7 +138,7 @@ const ModalAddNew = (props) => {
                     <Button variant="secondary" onClick={() => handleClose()}>Close</Button>
                     <Button variant="primary" onClick={() => handleSaveUser()}>Save changes</Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
         </>
     )
 }

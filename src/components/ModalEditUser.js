@@ -5,56 +5,56 @@ import { toast } from 'react-toastify';
 import { useEffect } from "react";
 
 const ModalEditUser = (props) => {
-    const { show, handleClose, dataUserEdit, handleEditUserFromModal } = props;
-    const [codeId, setCodeId] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [fullName, setFullName] = useState("");
-    const [dateOfBirth, setDateOfBirth] = useState("");
-    const [facultyName, setFacultyName] = useState("");
-    const [courseName, setCourseName] = useState("");
-    const [type, setType] = useState("");
+    // const { show, handleClose, dataUserEdit, handleEditUserFromModal } = props;
+    // const [codeId, setCodeId] = useState("");
+    // const [firstName, setFirstName] = useState("");
+    // const [lastName, setLastName] = useState("");
+    // const [fullName, setFullName] = useState("");
+    // const [dateOfBirth, setDateOfBirth] = useState("");
+    // const [facultyName, setFacultyName] = useState("");
+    // const [courseName, setCourseName] = useState("");
+    // const [type, setType] = useState("");
 
-    const handleEditUser = async () => {
-        let res = await putUpdateUser(id, codeId, lastName, firstName, fullName, dateOfBirth, facultyName, courseName, type);
-        if (res) {
-            //success
-            handleEditUserFromModal({
-                id: id,
-                codeId: res.response.codeId,
-                firstName: res.response.firstName, 
-                lastName: res.response.lastName, 
-                fullName: res.response.fullName, 
-                dateOfBirth: res.response.dateOfBirth, 
-                facultyName: res.response.facultyName, 
-                courseName: res.response.courseName, 
-                type: res.response.type
-            })
-            handleClose();
-            toast.success("update user success");
-        }
-        else {
-            //error
-        }
-        console.log(res);
-    }
+    // const handleEditUser = async () => {
+    //     let res = await putUpdateUser(id, codeId, lastName, firstName, fullName, dateOfBirth, facultyName, courseName, type);
+    //     if (res) {
+    //         //success
+    //         handleEditUserFromModal({
+    //             id: id,
+    //             codeId: res.response.codeId,
+    //             firstName: res.response.firstName, 
+    //             lastName: res.response.lastName, 
+    //             fullName: res.response.fullName, 
+    //             dateOfBirth: res.response.dateOfBirth, 
+    //             facultyName: res.response.facultyName, 
+    //             courseName: res.response.courseName, 
+    //             type: res.response.type
+    //         })
+    //         handleClose();
+    //         toast.success("update user success");
+    //     }
+    //     else {
+    //         //error
+    //     }
+    //     console.log(res);
+    // }
 
-    useEffect(() => {
-        if (show) {
-            setCodeId(dataUserEdit.codeId);
-            setFirstName(dataUserEdit.firstName);
-            setLastName(dataUserEdit.lastName);
-            setFullName(dataUserEdit.fullName);
-            setDateOfBirth(dataUserEdit.dateOfBirth);
-            setFacultyName(dataUserEdit.facultyName);
-            setCourseName(dataUserEdit.courseName);
-            setType(dataUserEdit.type);
-        }
-    }, [dataUserEdit])
+    // useEffect(() => {
+    //     if (show) {
+    //         setCodeId(dataUserEdit.codeId);
+    //         setFirstName(dataUserEdit.firstName);
+    //         setLastName(dataUserEdit.lastName);
+    //         setFullName(dataUserEdit.fullName);
+    //         setDateOfBirth(dataUserEdit.dateOfBirth);
+    //         setFacultyName(dataUserEdit.facultyName);
+    //         setCourseName(dataUserEdit.courseName);
+    //         setType(dataUserEdit.type);
+    //     }
+    // }, [dataUserEdit])
 
     return (
         <>
-            <Modal
+            {/* <Modal
                 show={show}
                 onHide={handleClose}
                 backdrop="static"
@@ -144,7 +144,7 @@ const ModalEditUser = (props) => {
                     <Button variant="secondary" onClick={() => handleClose()}>Close</Button>
                     <Button variant="primary" onClick={() => handleEditUser()}>Confirm</Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
         </>
     )
 }
