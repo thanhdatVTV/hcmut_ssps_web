@@ -15,6 +15,7 @@ const Header = (props) => {
     const handleLogout = () => {
         sessionStorage.removeItem("account");
         navigate("/login");
+        setIsShowHeader(false);
         toast.success("Log out success!")
     }
 
@@ -22,6 +23,7 @@ const Header = (props) => {
         let session = sessionStorage.getItem('account');
         if (location.pathname === '/Login' || !session) {
             setIsShowHeader(false);
+            navigate("/login");
         }
     }, [])
 

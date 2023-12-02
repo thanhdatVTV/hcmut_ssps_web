@@ -11,7 +11,7 @@ import UploadFile from "../UploadFile/UploadFile";
 const AppRoutes = () => {
     return (
         <>
-            <PrivateRoutes path="/users" element={Users} />
+            {/* <PrivateRoutes path="/users" element={Users} /> */}
             <Routes>
                 <Route path="/" element={<Home />} />
                 {/* <Route path="/users" element={<TableUsers />} /> */}
@@ -22,7 +22,7 @@ const AppRoutes = () => {
                 <Route path="/file-type" element={<TableFileType />} />
                 <Route path="/page-size" element={<TablePageSize />} /> */}
 
-                {/* <Route path='/users' element={<Users />} /> */}
+                <Route path='/users' element={<Users />} />
                 <Route path='/upload' element={<UploadFile />} />
             </Routes>
         </>
