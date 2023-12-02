@@ -6,6 +6,7 @@ import Users from '../../components/ManageUsers/Users';
 import Home from '../../components/Home';
 import TableFileType from '../../components/FileType/TableFileType';
 import PrivateRoutes from "./PrivateRoutes";
+import UploadFile from "../UploadFile/UploadFile";
 
 const AppRoutes = () => {
     return (
@@ -22,6 +23,7 @@ const AppRoutes = () => {
                 <Route path="/page-size" element={<TablePageSize />} /> */}
 
                 {/* <Route path='/users' element={<Users />} /> */}
+                <Route path='/upload' element={<UploadFile />} />
             </Routes>
         </>
     )

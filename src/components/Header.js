@@ -36,6 +36,7 @@ const Header = (props) => {
                             <NavLink to="/file-type" className="nav-link">File Type</NavLink>
                             <NavLink to="/page-size" className="nav-link">Page Size</NavLink>
                             <NavLink to="/printer" className="nav-link">Printer</NavLink>
+                            <NavLink to="/upload" className="nav-link">Upload</NavLink>
                         </Nav>
                         <Nav>
                             <NavDropdown title="Setting" id="basic-nav-dropdown">
