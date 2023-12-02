@@ -2,12 +2,11 @@ import { useState } from 'react'
 import './Login.scss'
 import { toast } from 'react-toastify';
 import { loginApi } from '../../services/UserService';
-//import { useHistory } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 
 
 const Login = () => {
-    //let history = useHistory();
     const navigate = useNavigate();
 
     const [valueLogin, setValueLogin] = useState("");
@@ -45,7 +44,6 @@ const Login = () => {
         let resLogin = await loginApi(valueLogin, password);
         if (resLogin && +resLogin.status == 1) {
             toast.success("Đăng nhập thành công.");
-            //history.push('/users');
             let data = {
                 isAuthenticated: true,
                 token: 'fake token'
@@ -64,6 +62,14 @@ const Login = () => {
             handleLogin();
         }
     }
+
+    useEffect(() => {
+        let session = sessionStorage.getItem('account');
+        if (session) {
+            navigate("/");
+            window.location.reload();
+        }
+    }, [])
 
     return (
         <div className="login-container">
