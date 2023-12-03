@@ -25,7 +25,7 @@ const Home = () => {
             navigate("/upload")
         }
         if (item === 6) {
-            navigate("/upload")
+            navigate("/category")
         }
         if (item === 7) {
             navigate("/upload")
@@ -51,7 +51,7 @@ const Home = () => {
                     <Button className="col-md-4 col-6 btn btn-warning btn-home">
                         <span className="title"><i className="fa-solid fa-table"></i> Xuất báo cáo</span>
                     </Button>
-                    <Button className="col-md-4 col-6 btn btn-info btn-home">
+                    <Button className="col-md-4 col-6 btn btn-info btn-home" onClick={() => redirectToOtherPage(6)}>
                         <span className="title"><i className="fa-solid fa-list-check"></i> Quản lý danh mục</span>
                     </Button>
                     <Button className="col-md-4 col-6 btn btn-dark btn-home">

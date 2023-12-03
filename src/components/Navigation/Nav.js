@@ -60,9 +60,9 @@ const Header = (props) => {
                                 <NavLink to="/purchase" className="nav-link">Purchase</NavLink>
                             </Nav>
                             <Nav>
-                                <NavDropdown title="Setting" id="basic-nav-dropdown">
+                                <NavDropdown title={user.account.fullName} id="basic-nav-dropdown">
                                     {/* <NavLink to="/login" className="dropdown-item">Login</NavLink> */}
-                                    <NavLink to="/Login" className="dropdown-item">Login</NavLink>
+                                    {/* <NavLink to="/Login" className="dropdown-item">Login</NavLink> */}
                                     <NavDropdown.Item onClick={() => handleLogout()}>
                                         Logout
                                     </NavDropdown.Item>

@@ -3,6 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import { updateFileType } from "../../services/FileTypeService";
 import { toast } from 'react-toastify';
 import { useEffect } from "react";
+import './FileType.scss'
 
 const ModalEdit = (props) => {
     const { show, handleClose, dataFileTypeEdit, handleEditFileTypeFromModal } = props;

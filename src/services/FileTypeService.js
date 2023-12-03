@@ -1,7 +1,8 @@
 import axios from "../services/customize-axios";
 
 const getFileTypeList = (keyword, pageNumber, perPage) => {
-    return axios.get(`/api/FileType/get-list-file-type?keyword=${keyword}&page=${pageNumber}&per_page=${perPage}`)
+    console.log('keyword, pageNumber, perPage', `/api/FileType/get-list-file-type?keyword=${keyword}&page=${pageNumber}&per_page=${perPage}`);
+    return axios.get(`/api/FileType/get-list-file-type?keyword=${keyword}&pageNumber=${pageNumber}&per_page=${perPage}`)
 }
 
 const createFileType = (typeName) => {
