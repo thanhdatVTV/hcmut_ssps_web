@@ -16,6 +16,7 @@ const Login = () => {
     const [valueLogin, setValueLogin] = useState("");
     const [password, setPassword] = useState("");
     const [isShowPassword, setIsShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const defaultObjValidInput = {
         isValidValueLogin: true,
@@ -25,45 +26,58 @@ const Login = () => {
 
     const handleLogin = async () => {
         setObjValidInput(defaultObjValidInput);
+        setLoading(true);
 
         let regx = /\S+@\S+\.\S+/;
         if (!regx.test(valueLogin)) {
             setObjValidInput({ ...defaultObjValidInput, isValidValueLogin: false })
             toast.error("Vui lòng nhập đúng định dạng email!")
+            setLoading(false);
             return;
         }
 
         if (!valueLogin) {
             setObjValidInput({ ...defaultObjValidInput, isValidValueLogin: false })
             toast.error("Vui lòng nhập Email!")
+            setLoading(false);
+
             return;
         }
 
         if (!password) {
             setObjValidInput({ ...defaultObjValidInput, isValidPassword: false })
             toast.error("Vui lòng nhật mật khẩu!")
+            setLoading(false);
+
             return;
         }
 
-        let resLogin = await loginApi(valueLogin, password);
-        if (resLogin && +resLogin.status == 1) {
-            toast.success("Đăng nhập thành công.");
-            let codeId = resLogin.response.type == 0 ? resLogin.response.studentId : resLogin.response.studentId.teacherId;
-            let fullName = resLogin.response.fullName;
-            let data = {
-                isAuthenticated: true,
-                token: 'fake token',
-                account: {
-                    fullName, codeId
+        try {
+            let resLogin = await loginApi(valueLogin, password);
+            if (resLogin && +resLogin.status == 1) {
+                toast.success("Đăng nhập thành công.");
+                let codeId = resLogin.response.type == 0 ? resLogin.response.studentId : resLogin.response.studentId.teacherId;
+                let fullName = resLogin.response.fullName;
+                let data = {
+                    isAuthenticated: true,
+                    token: 'fake token',
+                    account: {
+                        fullName, codeId
+                    }
                 }
+                sessionStorage.setItem('account', JSON.stringify(data));
+                loginContext(data);
+                navigate("/")
+                //window.location.reload();
             }
-            sessionStorage.setItem('account', JSON.stringify(data));
-            loginContext(data);
-            navigate("/")
-            //window.location.reload();
+            else {
+                toast.error("Đăng nhập thất bại!");
         }
-        else {
-            toast.error("Đăng nhập thất bại!");
+        } catch (error) {
+            console.error("Error during login:", error);
+            toast.error("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
+        } finally {
+            setLoading(false); // Set loading to false after login attempt
         }
     }
 
@@ -112,7 +126,15 @@ const Login = () => {
                                 onClick={() => setIsShowPassword(!isShowPassword)}
                             ></i>
                         </div>
-                        <button className='btn btn-primary' onClick={() => handleLogin()}>Login</button>
+                        <button className='btn btn-primary' onClick={() => handleLogin()}>
+                            {loading ? (
+                                <div className="spinner-border" role="status">
+                                    <span className="sr-only">Loading...</span>
+                                </div>
+                            ) : (
+                                'Login'
+                            )}
+                        </button>
                     </div>
                 </div>
             </div>

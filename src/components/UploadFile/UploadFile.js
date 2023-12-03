@@ -7,6 +7,7 @@ import { ImageConfig } from './config/ImageConfig';
 import uploadImg from './config/cloud-upload-regular-240.png';
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 // Set the worker script URL
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js';
@@ -30,36 +31,17 @@ const UploadFile = (props) => {
   const [showPrintPopup, setShowPrintPopup] = useState(false);
   const [isRedirectToPagePurchase, setIsRedirectToPagePurchase] = useState(false);
 
-  const [showPopup, setShowPopup] = useState(false);
+  const [loadingUpload, setLoadingUpload] = useState(false);
 
-  // useEffect(() => {
-  //   if (apiPageCount !== null && filePageCount !== null && apiPageCount < filePageCount) {
-  //       setShowPopup(true);
-  //   } else {
-  //       setShowPopup(false);
-  //   }
-  // }, [apiPageCount, filePageCount]);
-
-  // const closeModal = () => {
-  //     setShowPopup(false);
-  // };
-
-  const goToHome = () => {
-    // Implement the logic to navigate to the home page
-    // You can use React Router or any other navigation method here
-  };
-
-  const buyMorePages = () => {
-    // Implement the logic to navigate to the page purchase section
-    // You can use React Router or any other navigation method here
-  };
 
   useEffect(() => {
     const fetchApiForPageCount = async () => {
       try {
         // Replace 'your-api-endpoint' with the actual API endpoint to fetch the page count
+        console.log(user.account.codeId)
         const response = await fetch(
-          'https://localhost:7280/api/PagePurchase/get-page-count?codeId=' + user.account.codeId
+          // 'https://localhost:7280/api/PagePurchase/get-page-count?codeId=' + user.account.codeId
+          'https://localhost:7280/api/PagePurchase/get-page-count?codeId=2233223'
         );
         const data = await response.json();
         setApiPageCount(data.response.pageCount); // Adjust the property accordingly based on your API response
@@ -119,6 +101,8 @@ const UploadFile = (props) => {
         return;
       }
 
+      setLoadingUpload(true); // Set loading to true when upload starts
+
       const formData = new FormData();
       formData.append('fileData', fileList[0]);
 
@@ -138,17 +122,27 @@ const UploadFile = (props) => {
       }
     } catch (error) {
       console.error('Error during file upload:', error);
+    } finally {
+      setLoadingUpload(false); // Set loading to false after upload attempt
     }
   };
+
 
   const closePrintPopup = () => {
     setShowPrintPopup(false);
   };
 
-  const printFile = () => {
+  const printFile = async () => {
     // Implement printing logic here
     // For demonstration purposes, you can use window.print()
-    window.print();
+    // window.print();
+    toast.success('Print success');
+    let updatedPage = apiPageCount - filePageCount;
+    const res = await fetch('https://localhost:7280/api/PagePurchase/update-page-count?codeId=2233223&' + 'pageCount=' + updatedPage, { method: 'POST'})
+    if(res) {
+      setApiPageCount(updatedPage)
+    }
+    // if(res.json())
   };
 
   const redirectToPagePurchase = () => {
@@ -203,7 +197,13 @@ const UploadFile = (props) => {
               </div>
               :
               <button className="drop-file-preview__item__upl" onClick={handleUpload} disabled={!fileList}>
-                Upload File
+                {loadingUpload ? (
+                  <div className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                ) : (
+                  'Upload File'
+                )}
               </button>
             }
 
@@ -229,14 +229,9 @@ const UploadFile = (props) => {
 
         </div>
       )}
-      {/* MODAL */}
 
     </>
   );
 }
-
-// DropFileInput.propTypes = {
-//     onFileChange: PropTypes.func
-// }
 
 export default UploadFile;
