@@ -1,4 +1,5 @@
 import Reat, { useState } from "react";
+import { useEffect } from "react";
 
 const UserContext = Reat.createContext(null);
 
@@ -18,6 +19,26 @@ const UserProvider = ({ children }) => {
     const logoutContext = (userData) => {
         setUser(userData)
     };
+
+    console.log('userCOntex', user)
+
+    useEffect(() => {
+        let session = sessionStorage.getItem('account');
+        if (session) {
+            let account = JSON.parse(session);
+            console.log('usercontex-seess', account)
+            let codeId = account.account.codeId;
+            let fullName = account.account.fullName;
+            let data = {
+                isAuthenticated: true,
+                token: 'fake token',
+                account: {
+                    fullName, codeId
+                }
+            }
+            setUser(data);
+        }
+    }, [])
 
     return (
         <UserContext.Provider value={{ user, loginContext, logoutContext }}>

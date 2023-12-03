@@ -8,7 +8,7 @@ import { UserContext } from '../context/UserContext';
 
 
 const Login = () => {
-    const { loginContext } = useContext(UserContext)
+    const { loginContext, user } = useContext(UserContext)
 
     const navigate = useNavigate();
 
@@ -56,9 +56,11 @@ const Login = () => {
                     fullName, codeId
                 }
             }
-            //sessionStorage.setItem('account', JSON.stringify(data));
+            sessionStorage.setItem('account', JSON.stringify(data));
             loginContext(data);
-            navigate("/home")
+            console.log('/Login-data', data)
+            console.log('/Login', user)
+            navigate("/")
             //window.location.reload();
         }
         else {

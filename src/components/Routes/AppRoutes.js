@@ -9,16 +9,23 @@ import PrivateRoutes from "./PrivateRoutes";
 import UploadFile from "../UploadFile/UploadFile";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
+import Category from "../Category/Category";
 
 const AppRoutes = () => {
     const { user } = useContext(UserContext);
-    console.log(user)
+    console.log('App rou', user)
 
     const navigate = useNavigate();
     useEffect(() => {
-        if (user.isAuthenticated === false) {
+        console.log('aaaaaaaaaaaaaaaaa');
+        let session = sessionStorage.getItem('account');
+        if (!session) {
             navigate("/Login")
         }
+        // if (user.isAuthenticated === false) {
+        //     console.log('bbbbbbbbbbbbbb');
+        //     navigate("/Login")
+        // }
     }, [])
 
     const onFileChange = (files) => {
@@ -40,12 +47,13 @@ const AppRoutes = () => {
                     <Route path="/page-size" element={<TablePageSize />} /> */}
 
                     <Route path='/users' element={<Users />} />
-                    <Route 
-                        path="/upload" 
+                    <Route
+                        path="/upload"
                         element={
-                        <Upload onFileChange={(files) => onFileChange(files)} />
-                        } 
+                            <UploadFile onFileChange={(files) => onFileChange(files)} />
+                        }
                     />
+                    <Route path='/category' element={<Category />} />
                 </Routes>
             </>
         )
