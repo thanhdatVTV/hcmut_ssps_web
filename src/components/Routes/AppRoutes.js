@@ -11,6 +11,7 @@ import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import Category from "../Category/Category";
 import PurchasePage from '../../components/PurchasePage/PurchasePage';
+import TableUsers from '../TableUsers'
 
 const AppRoutes = () => {
     const { user } = useContext(UserContext);
@@ -39,13 +40,13 @@ const AppRoutes = () => {
                 {/* <PrivateRoutes path="/users" element={Users} /> */}
                 <Routes>
                     <Route path="/" exact element={<Home />} />
-                    {/* <Route path="/users" element={<TableUsers />} /> */}
+                    <Route path="/users" element={<TableUsers />} />
                     {/* <Route path="/login" element={<Login />} /> */}
                     <Route path="/Login" element={<LoginNew />} />
 
-                    {/* <Route path="/printer" element={<TablePrinter />} />
+                    <Route path="/printer" element={<TablePrinter />} />
                     <Route path="/file-type" element={<TableFileType />} />
-                    <Route path="/page-size" element={<TablePageSize />} /> */}
+                    <Route path="/page-size" element={<TablePageSize />} />
 
                     <Route path='/users' element={<Users />} />
                     <Route
