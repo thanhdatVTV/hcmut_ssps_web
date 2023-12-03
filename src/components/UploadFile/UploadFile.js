@@ -40,8 +40,8 @@ const UploadFile = (props) => {
         // Replace 'your-api-endpoint' with the actual API endpoint to fetch the page count
         console.log(user.account.codeId)
         const response = await fetch(
-          // 'https://localhost:7280/api/PagePurchase/get-page-count?codeId=' + user.account.codeId
-          'https://localhost:7280/api/PagePurchase/get-page-count?codeId=2233223'
+          'https://localhost:7280/api/PagePurchase/get-page-count?codeId=' + user.account.codeId
+          //'https://localhost:7280/api/PagePurchase/get-page-count?codeId=2233223'
         );
         const data = await response.json();
         setApiPageCount(data.response.pageCount); // Adjust the property accordingly based on your API response
@@ -138,8 +138,8 @@ const UploadFile = (props) => {
     // window.print();
     toast.success('Print success');
     let updatedPage = apiPageCount - filePageCount;
-    const res = await fetch('https://localhost:7280/api/PagePurchase/update-page-count?codeId=2233223&' + 'pageCount=' + updatedPage, { method: 'POST'})
-    if(res) {
+    const res = await fetch('https://localhost:7280/api/PagePurchase/update-page-count?codeId=' + user.account.codeId + '&pageCount=' + updatedPage, { method: 'POST' })
+    if (res) {
       setApiPageCount(updatedPage)
     }
     // if(res.json())
