@@ -13,7 +13,7 @@ const updatePageSize = (id, pageSizeName) => {
 }
 
 const deletePageSize = (id) => {
-    return axios.delete(`/api/PageSize/delete-page-size?id=${id}`);
+    return axios.post(`/api/PageSize/delete-page-size?id=${id}`);
 }
 
 export { getPageSizeList, createPageSize, updatePageSize, deletePageSize };

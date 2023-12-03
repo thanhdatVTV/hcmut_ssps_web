@@ -78,9 +78,10 @@ const TableFileType = (props) => {
     }
 
     const handleDeleteFileTypeFromModal = (fileType) => {
-        let cloneListFileTypes = _.cloneDeep(listFileType);
-        cloneListFileTypes = cloneListFileTypes.filter(item => item.id !== fileType.id);
-        setListFileType(cloneListFileTypes);
+        // let cloneListFileTypes = _.cloneDeep(listFileType);
+        // cloneListFileTypes = cloneListFileTypes.filter(item => item.id !== fileType.id);
+        // setListFileType(cloneListFileTypes);
+        getFileTypes("", 1, 6);
     }
 
     const handleSort = (sortBy, sortField) => {

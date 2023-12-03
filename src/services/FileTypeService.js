@@ -14,7 +14,7 @@ const updateFileType = (id, typeName) => {
 }
 
 const deleteFileType = (id) => {
-    return axios.delete(`/api/FileType/delete-file-type?id=${id}`);
+    return axios.post(`/api/FileType/delete-file-type?id=${id}`);
 }
 
 export { getFileTypeList, createFileType, updateFileType, deleteFileType };

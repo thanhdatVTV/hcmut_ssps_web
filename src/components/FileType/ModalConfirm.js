@@ -7,6 +7,7 @@ const ModalConfirm = (props) => {
     const { show, handleClose, dataFileTypeDelete, handleDeleteFileTypeFromModal } = props;
 
     const confirmDelete = async () => {
+        console.log('dataFileTypeDelete.id', dataFileTypeDelete.id);
         let res = await deleteFileType(dataFileTypeDelete.id)
         if (res && res.status) {
             toast.success("Delete file type succeed!");
@@ -30,11 +31,7 @@ const ModalConfirm = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="body-add-new">
-                        This action can't be undone!
-
-                        Do eant to delete thus user?
-                        <br />
-                        <b>email = {dataFileTypeDelete.email}?</b>
+                        Bạn có chắc muốn xóa không?
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

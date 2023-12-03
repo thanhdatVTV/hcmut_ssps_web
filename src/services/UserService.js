@@ -13,7 +13,7 @@ const putUpdateUser = (name, job) => {
 }
 
 const deleteUser = (id) => {
-    return axios.delete(`/api/user/${id}`)
+    return axios.post(`/api/user/${id}`)
 }
 
 const loginApi = (username, password) => {
