@@ -152,84 +152,85 @@ const UploadFile = (props) => {
 
   return (
     <>
-      <p style={{ fontSize: '18px' }}>Số trang giấy còn lại: {apiPageCount}</p>
-      <p style={{ fontSize: '18px' }}>Số trang giấy cần in: {filePageCount}</p>
-      <div
-        ref={wrapperRef}
-        className="drop-file-input"
-        onDragEnter={onDragEnter}
-        onDragLeave={onDragLeave}
-        onDrop={onDrop}
-      >
-        <div className="drop-file-input__label">
-          <img src={uploadImg} alt="" />
-          <p>Drag & Drop your files here</p>
+      <div className='upload-container'>
+        <p style={{ fontSize: '18px' }}>Số trang giấy còn lại: {apiPageCount}</p>
+        <p style={{ fontSize: '18px' }}>Số trang giấy cần in: {filePageCount}</p>
+        <div
+          ref={wrapperRef}
+          className="drop-file-input"
+          onDragEnter={onDragEnter}
+          onDragLeave={onDragLeave}
+          onDrop={onDrop}
+        >
+          <div className="drop-file-input__label">
+            <img src={uploadImg} alt="" />
+            <p>Drag & Drop your files here</p>
+          </div>
+          <input type="file" value="" accept=".pdf" onChange={onFileDrop} />
         </div>
-        <input type="file" value="" accept=".pdf" onChange={onFileDrop} />
-      </div>
-      {
-        fileList.length > 0 ? (
-          <div className="drop-file-preview">
-            <p className="drop-file-preview__title">
-              Ready to upload
-            </p>
-            {
-              fileList.map((item, index) => (
-                <div key={index} className="drop-file-preview__item">
-                  <img src={ImageConfig[item.type.split('/')[1]] || ImageConfig['default']} alt="" />
-                  <div className="drop-file-preview__item__info">
-                    <p>{item.name}</p>
-                    <p>{item.size} Byte</p>
-                  </div>
+        {
+          fileList.length > 0 ? (
+            <div className="drop-file-preview">
+              <p className="drop-file-preview__title">
+                Ready to upload
+              </p>
+              {
+                fileList.map((item, index) => (
+                  <div key={index} className="drop-file-preview__item">
+                    <img src={ImageConfig[item.type.split('/')[1]] || ImageConfig['default']} alt="" />
+                    <div className="drop-file-preview__item__info">
+                      <p>{item.name}</p>
+                      <p>{item.size} Byte</p>
+                    </div>
 
-                  <span className="drop-file-preview__item__del" onClick={() => fileRemove(item)}>x</span>
+                    <span className="drop-file-preview__item__del" onClick={() => fileRemove(item)}>x</span>
+                  </div>
+                ))
+              }
+              {apiPageCount < filePageCount ?
+                <div>
+                  <p>
+                    Số trang in hiện tải của bạn không đủ, vui lòng chuyển đến trang thanh toán
+                  </p>
+                  <button className="drop-file-preview__item__upl" onClick={redirectToPagePurchase} disabled={!fileList}>
+                    Chuyển đến trang thanh toán
+                  </button>
                 </div>
-              ))
-            }
-            {apiPageCount < filePageCount ?
-              <div>
-                <p>
-                  Số trang in hiện tải của bạn không đủ, vui lòng chuyển đến trang thanh toán
-                </p>
-                <button className="drop-file-preview__item__upl" onClick={redirectToPagePurchase} disabled={!fileList}>
-                  Chuyển đến trang thanh toán
+                :
+                <button className="drop-file-preview__item__upl" onClick={handleUpload} disabled={!fileList}>
+                  {loadingUpload ? (
+                    <div className="spinner-border" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+                  ) : (
+                    'Upload File'
+                  )}
                 </button>
-              </div>
-              :
-              <button className="drop-file-preview__item__upl" onClick={handleUpload} disabled={!fileList}>
-                {loadingUpload ? (
-                  <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                ) : (
-                  'Upload File'
-                )}
-              </button>
-            }
+              }
+
+            </div>
+
+          ) : null
+        }
+
+        {showPrintPopup && !isRedirectToPagePurchase && (
+          <div className="print-popup">
+            <div className='btn-group'>
+              <button className="btn btn-success btn-print-close" onClick={printFile}>Print</button>
+              <button className="btn btn-secondary btn-print-close" onClick={closePrintPopup}>Close</button>
+            </div>
+            <p>File Content:</p>
+            {/* Use an iframe to render the file content */}
+            <iframe
+              title="File Content"
+              width="100%"
+              height="1000px"
+              src={`data:application/pdf;base64,${fileContent}`}
+            />
 
           </div>
-
-        ) : null
-      }
-
-      {showPrintPopup && !isRedirectToPagePurchase && (
-        <div className="print-popup">
-          <div className='btn-group'>
-            <button className="btn btn-success btn-print-close" onClick={printFile}>Print</button>
-            <button className="btn btn-secondary btn-print-close" onClick={closePrintPopup}>Close</button>
-          </div>
-          <p>File Content:</p>
-          {/* Use an iframe to render the file content */}
-          <iframe
-            title="File Content"
-            width="100%"
-            height="1000px"
-            src={`data:application/pdf;base64,${fileContent}`}
-          />
-
-        </div>
-      )}
-
+        )}
+      </div>
     </>
   );
 }
