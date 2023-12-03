@@ -1,143 +1,126 @@
-// import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import * as pdfjs from 'pdfjs-dist/build/pdf';
 
-// const UploadFile = () => {
-//   const [selectedFile, setSelectedFile] = useState(null);
-//   const [fileContent, setFileContent] = useState(null);
+import './dragAndDrop.scss';
 
-//   const handleFileChange = (event) => {
-//     setSelectedFile(event.target.files[0]);
-//     setFileContent(null); // Clear previous file content when a new file is selected
-//   };
+import { ImageConfig } from './config/ImageConfig'; 
+import uploadImg from './config/cloud-upload-regular-240.png';
 
-//   const handleUpload = async () => {
-//     try {
-//       if (!selectedFile) {
-//         console.error('No file selected');
-//         return;
-//       }
+// Set the worker script URL
+pdfjs.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js';
 
-//       const formData = new FormData();
-//       formData.append('fileData', selectedFile);
+const UploadFile = (props) => {
 
-//       let response = await fetch('http://localhost:5193/api/Files/PostSingleFile', {
-//         method: 'POST',
-//         body: formData
-//       });
+    const wrapperRef = useRef(null);
 
-//       if (response.ok) {
-//         const result = await response.json();
-//         console.log('File uploaded successfully:', result);
+    const [fileList, setFileList] = useState([]);
 
-//         // Set the file content in the state
-//         setFileContent(result.response.fileData);
-//       } else {
-//         console.error('Failed to upload file:', response);
-//       }
-//     } catch (error) {
-//       console.error('Error during file upload:', error);
-//     }
-//   };
+    const onDragEnter = () => wrapperRef.current.classList.add('dragover');
 
-//   return (
-//     <div>
-//       <input type="file" onChange={handleFileChange} />
-//       <button onClick={handleUpload} disabled={!selectedFile}>
-//         Upload File
-//       </button>
+    const onDragLeave = () => wrapperRef.current.classList.remove('dragover');
+
+    const onDrop = () => wrapperRef.current.classList.remove('dragover');
+
+    const [apiPageCount, setApiPageCount] = useState(null);
+    const [filePageCount, setFilePageCount] = useState(null);
   
-//       {fileContent && (
-//         <div className='col-12'>
-//           <p>File Content:</p>
-//           {/* Use an iframe to render the file content */}
-//           <iframe
-//             title="File Content"
-//             width="100%"
-//             height="500px"
-//             src={`data:application/pdf;base64,${fileContent}`}
-//           />
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
+    useEffect(async () => {
+      const fetchApiForPageCount = async () => {
+        try {
+          // Replace 'your-api-endpoint' with the actual API endpoint to fetch the page count
+          const response = await fetch(
+            'https://localhost:7280/api/PagePurchase/get-page-count?userId=febbfa1e-7386-4563-9131-b9e94ddea3a0'
+          );
+          const data = await response.json();
+          console.log(data);
+          setApiPageCount(data.response.pageCount); // Adjust the property accordingly based on your API response
+        } catch (error) {
+          console.error('Error fetching API:', error);
+        }
+      };
+      fetchApiForPageCount();
+    },[apiPageCount])
 
-// export default UploadFile;
+    const handleFileChange = async (file) => {
+        try {
+          const fileReader = new FileReader();
+          fileReader.onload = async function () {
+            const typedarray = new Uint8Array(this.result);
+            try {
+              const pdf = await pdfjs.getDocument(typedarray).promise;
+              const pageCount = pdf.numPages;
+              setFilePageCount(pageCount);
+            } catch (error) {
+              console.error('Error loading PDF:', error);
+            }
+          };
+          fileReader.readAsArrayBuffer(file);
+        } catch (error) {
+          console.error('Error reading file:', error);
+        }
+    };
 
-import React, { useState } from 'react';
-
-const UploadFile = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [fileContent, setFileContent] = useState(null);
-  const [showPrintPopup, setShowPrintPopup] = useState(false);
-
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-    setFileContent(null);
-    setShowPrintPopup(false); // Close the print popup when a new file is selected
-  };
-
-  const handleUpload = async () => {
-    try {
-      if (!selectedFile) {
-        console.error('No file selected');
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append('fileData', selectedFile);
-
-      let response = await fetch('http://localhost:5193/api/Files/PostSingleFile', {
-        method: 'POST',
-        body: formData
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log('File uploaded successfully:', result);
-
-        setFileContent(result.response.fileData);
-        setShowPrintPopup(true); // Open the print popup after successful upload
-      } else {
-        console.error('Failed to upload file:', response);
-      }
-    } catch (error) {
-      console.error('Error during file upload:', error);
+    const onFileDrop = (e) => {
+        const newFile = e.target.files[0];
+        handleFileChange(newFile);
+        if (newFile) {
+            const updatedList = [...fileList, newFile];
+            setFileList(updatedList);
+            props.onFileChange(updatedList);
+        }
     }
-  };
 
-  const closePrintPopup = () => {
-    setShowPrintPopup(false);
-  };
+    const fileRemove = (file) => {
+        const updatedList = [...fileList];
+        updatedList.splice(fileList.indexOf(file), 1);
+        setFileList(updatedList);
+        props.onFileChange(updatedList);
+    }
 
-  const printFile = () => {
-    // Implement printing logic here
-    // For demonstration purposes, you can use window.print()
-    window.print();
-  };
+    return (
+        <>
+            <p style={{fontSize: '18px'}}>Số trang giấy còn lại: {apiPageCount}</p>
+            <p style={{fontSize: '18px'}}>Số trang giấy cần in: {filePageCount}</p>
+            <div
+                ref={wrapperRef}
+                className="drop-file-input"
+                onDragEnter={onDragEnter}
+                onDragLeave={onDragLeave}
+                onDrop={onDrop}
+            >
+                <div className="drop-file-input__label">
+                    <img src={uploadImg} alt="" />
+                    <p>Drag & Drop your files here</p>
+                </div>
+                <input type="file" value="" accept=".pdf" onChange={onFileDrop}/>
+            </div>
+            {
+                fileList.length > 0 ? (
+                    <div className="drop-file-preview">
+                        <p className="drop-file-preview__title">
+                            Ready to upload
+                        </p>
+                        {
+                            fileList.map((item, index) => (
+                                <div key={index} className="drop-file-preview__item">
+                                    <img src={ImageConfig[item.type.split('/')[1]] || ImageConfig['default']} alt="" />
+                                    <div className="drop-file-preview__item__info">
+                                        <p>{item.name}</p>
+                                        <p>{item.size} Byte</p>
+                                    </div>
+                                    <span className="drop-file-preview__item__del" onClick={() => fileRemove(item)}>x</span>
+                                </div>
+                            ))
+                        }
+                    </div>
+                ) : null
+            }
+        </>
+    );
+}
 
-  return (
-    <div>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload} disabled={!selectedFile}>
-        Upload File
-      </button>
-
-      {showPrintPopup && (
-        <div className="print-popup">
-          <p>File Content:</p>
-          {/* Use an iframe to render the file content */}
-          <iframe
-            title="File Content"
-            width="100%"
-            height="500px"
-            src={`data:application/pdf;base64,${fileContent}`}
-          />
-          <button onClick={printFile}>Print</button>
-          <button onClick={closePrintPopup}>Close</button>
-        </div>
-      )}
-    </div>
-  );
-};
+// DropFileInput.propTypes = {
+//     onFileChange: PropTypes.func
+// }
 
 export default UploadFile;

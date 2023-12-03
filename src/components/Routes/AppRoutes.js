@@ -21,6 +21,10 @@ const AppRoutes = () => {
         }
     }, [])
 
+    const onFileChange = (files) => {
+        console.log(files);
+    }
+
     if (user && user.isAuthenticated === true) {
         return (
             <>
@@ -36,7 +40,12 @@ const AppRoutes = () => {
                     <Route path="/page-size" element={<TablePageSize />} /> */}
 
                     <Route path='/users' element={<Users />} />
-                    <Route path='/upload' element={<UploadFile />} />
+                    <Route 
+                        path="/upload" 
+                        element={
+                        <Upload onFileChange={(files) => onFileChange(files)} />
+                        } 
+                    />
                 </Routes>
             </>
         )
