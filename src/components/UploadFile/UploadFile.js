@@ -6,11 +6,13 @@ import './UploadFile.scss';
 import { ImageConfig } from './config/ImageConfig';
 import uploadImg from './config/cloud-upload-regular-240.png';
 import { UserContext } from "../context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 // Set the worker script URL
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js';
 
 const UploadFile = (props) => {
+  const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const wrapperRef = useRef(null);
 
@@ -149,6 +151,11 @@ const UploadFile = (props) => {
     window.print();
   };
 
+  const redirectToPagePurchase = () => {
+    console.log('ssss')
+    navigate("/purchase");
+  }
+
   return (
     <>
       <p style={{ fontSize: '18px' }}>Số trang giấy còn lại: {apiPageCount}</p>
@@ -185,9 +192,21 @@ const UploadFile = (props) => {
                 </div>
               ))
             }
-            <button className="drop-file-preview__item__upl" onClick={handleUpload} disabled={!fileList}>
-              Upload File
-            </button>
+            {apiPageCount < filePageCount ?
+              <div>
+                <p>
+                  Số trang in hiện tải của bạn không đủ, vui lòng chuyển đến trang thanh toán
+                </p>
+                <button className="drop-file-preview__item__upl" onClick={redirectToPagePurchase} disabled={!fileList}>
+                  Chuyển đến trang thanh toán
+                </button>
+              </div>
+              :
+              <button className="drop-file-preview__item__upl" onClick={handleUpload} disabled={!fileList}>
+                Upload File
+              </button>
+            }
+
           </div>
 
         ) : null

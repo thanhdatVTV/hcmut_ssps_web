@@ -10,6 +10,7 @@ import UploadFile from "../UploadFile/UploadFile";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
 import Category from "../Category/Category";
+import PurchasePage from '../../components/PurchasePage/PurchasePage';
 
 const AppRoutes = () => {
     const { user } = useContext(UserContext);
@@ -54,6 +55,7 @@ const AppRoutes = () => {
                         }
                     />
                     <Route path='/category' element={<Category />} />
+                    <Route path='/purchase' element={<PurchasePage />} />
                 </Routes>
             </>
         )
