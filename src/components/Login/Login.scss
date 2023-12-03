@@ -19,11 +19,24 @@
         margin-top: 50px;
         padding-left: 100px;
 
-        .brand {
-            text-transform: uppercase;
-            font-size: 50px;
-            color: #1877f2;
+        .logo-container {
+
+            .logo {
+                max-width: 100px;
+                /* Ensure the logo doesn't exceed its container */
+                height: auto;
+                /* Maintain the aspect ratio */
+                margin-bottom: 20px;
+                /* Adjust the margin as needed */
+            }
+
+            .brand {
+                text-transform: uppercase;
+                font-size: 50px;
+                color: #1877f2;
+            }
         }
+
 
         .detail {
             font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;

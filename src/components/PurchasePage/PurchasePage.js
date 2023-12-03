@@ -75,8 +75,6 @@ const PurchasePage = () => {
                     onChange={handlePagesChange}
                     className="pages-input"
                 />
-            </div>
-            <div className='btn-thanhtoan-container'>
                 <button type="btn-thanhtoan" onClick={handlePayment}>
                     Thanh toán
                 </button>

@@ -105,10 +105,14 @@
 }
 
 .print-popup {
-
     .btn-group {
-        text-align: right;
+        display: flex;
+        justify-content: flex-end;
+        width: 200px;
 
-
+        .btn-print-close {
+            margin: 4px;
+            border-radius: 2px;
+        }
     }
 }

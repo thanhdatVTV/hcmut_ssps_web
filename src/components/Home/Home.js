@@ -35,27 +35,27 @@ const Home = () => {
     return (
         <>
             <div className="home-container">
-                <div className="col-12 w-100">
+                <div className="col-12 d-flex flex-wrap w-100">
                     <Button className="col-md-4 col-6 btn btn-primary btn-home" onClick={() => redirectToOtherPage(1)}>
-                        <span className="title"><i className="fa-brands fa-freebsd"></i> In tài liệu</span>
+                        <span className="title"><i className="fa-solid fa-file"></i> In tài liệu</span>
                     </Button>
                     <Button className="col-md-4 col-6 btn btn-secondary btn-home">
-                        <span className="title"><i className="fa-brands fa-freebsd"></i> Mua trang in</span>
+                        <span className="title"><i className="fa-solid fa-money-bill"></i> Mua trang in</span>
                     </Button>
                     <Button className="col-md-4 col-6 btn btn-success btn-home">
-                        <span className="title"><i className="fa-brands fa-freebsd"></i> Lịch sử in ấn</span>
+                        <span className="title"><i className="fa-solid fa-clipboard"></i> Lịch sử in ấn</span>
                     </Button>
                     <Button className="col-md-4 col-6 btn btn-danger btn-home">
-                        <span className="title"> <i className="fa-brands fa-freebsd"></i>Kho tài liệu</span>
+                        <span className="title"> <i className="fa-solid fa-database"></i> Kho tài liệu</span>
                     </Button>
                     <Button className="col-md-4 col-6 btn btn-warning btn-home">
-                        <span className="title"><i className="fa-brands fa-freebsd"></i> Xuất báo cáo</span>
+                        <span className="title"><i className="fa-solid fa-table"></i> Xuất báo cáo</span>
                     </Button>
                     <Button className="col-md-4 col-6 btn btn-info btn-home">
-                        <span className="title"><i className="fa-brands fa-freebsd"></i> Quản lý danh mục</span>
+                        <span className="title"><i className="fa-solid fa-list-check"></i> Quản lý danh mục</span>
                     </Button>
-                    <Button className="col-md-4 col-6 btn btn-info btn-home">
-                        <span className="title"><i className="fa-brands fa-freebsd"></i> Thông tin cá nhân</span>
+                    <Button className="col-md-4 col-6 btn btn-dark btn-home">
+                        <span className="title"><i className="fa-solid fa-id-card"></i> Thông tin cá nhân</span>
                     </Button>
                 </div>
             </div>
@@ -64,3 +64,4 @@ const Home = () => {
 }
 
 export default Home;
+

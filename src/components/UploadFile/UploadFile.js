@@ -215,15 +215,15 @@ const UploadFile = (props) => {
       {showPrintPopup && !isRedirectToPagePurchase && (
         <div className="print-popup">
           <div className='btn-group'>
-            <button className="btn btn-success" onClick={printFile}>Print</button>
-            <button className="btn btn-secondary" onClick={closePrintPopup}>Close</button>
+            <button className="btn btn-success btn-print-close" onClick={printFile}>Print</button>
+            <button className="btn btn-secondary btn-print-close" onClick={closePrintPopup}>Close</button>
           </div>
           <p>File Content:</p>
           {/* Use an iframe to render the file content */}
           <iframe
             title="File Content"
             width="100%"
-            height="500px"
+            height="1000px"
             src={`data:application/pdf;base64,${fileContent}`}
           />
 

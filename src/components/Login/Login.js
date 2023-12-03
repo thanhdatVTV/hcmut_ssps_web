@@ -5,6 +5,7 @@ import { loginApi } from '../../services/UserService';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 import { UserContext } from '../context/UserContext';
+import logoApp from '../../assets/images/logobachkhoa.png';
 
 
 const Login = () => {
@@ -77,8 +78,11 @@ const Login = () => {
             <div className="container">
                 <div className="row px-3 px-sm-0">
                     <div className="content-left col-12 d-none col-sm-7 d-sm-block">
-                        <div className="brand">
-                            SSPS PRINT
+                        <div className='logo-container'>
+                            <img src={logoApp} alt="Logo" className="logo" />
+                            <div className="brand">
+                                SSPS PRINT
+                            </div>
                         </div>
                         <div className="detail">
                             SSPS PRINT giúp bạn in ấn và chia sẻ tài liệu với mọi người một cách dể dàng.
