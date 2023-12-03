@@ -13,7 +13,8 @@ const updatePrinter = (id, brand, printerModel, description) => {
 }
 
 const deletePrinter = (id) => {
-    return axios.delete(`/api/Printer/delete-printer?id=${id}`);
+    console.log(`/api/Printer/delete-printer?id=${id}`)
+    return axios.post(`/api/Printer/delete-printer?id=${id}`);
 }
 
 export { getPrinterList, createPrinter, updatePrinter, deletePrinter };

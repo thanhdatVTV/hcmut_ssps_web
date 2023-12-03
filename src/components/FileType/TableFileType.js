@@ -36,14 +36,16 @@ const TableFileType = (props) => {
     }
 
     const handleUpdateTable = (fileType) => {
-        setListFileType([fileType, ...listFileType]);
+        // setListFileType([fileType, ...listFileType]);
+        getFileTypes("", 1, 6);
     }
 
     const handleEditFileTypeFromModal = (fileType) => {
-        let cloneListFileTypes = _.cloneDeep(listFileType);
-        let index = listFileType.findIndex(item => item.id === fileType.id);
-        cloneListFileTypes[index].typeName = fileType.typeName;
-        setListFileType(cloneListFileTypes);
+        // let cloneListFileTypes = _.cloneDeep(listFileType);
+        // let index = listFileType.findIndex(item => item.id === fileType.id);
+        // cloneListFileTypes[index].typeName = fileType.typeName;
+        // setListFileType(cloneListFileTypes);
+        getFileTypes("", 1, 6);
     }
 
     useEffect(() => {

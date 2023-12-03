@@ -35,14 +35,16 @@ const TableUsers = (props) => {
     }
 
     const handleUpdateTable = (user) => {
-        setListUsers([user, ...listUsers]);
+        //setListUsers([user, ...listUsers]);
+        getUsers("", 1, 6);
     }
 
     const handleEditUserFromModal = (user) => {
-        let cloneListUsers = _.cloneDeep(listUsers);
-        let index = listUsers.findIndex(item => item.id === user.id);
-        cloneListUsers[index].firstName = user.firstName;
-        setListUsers(cloneListUsers);
+        // let cloneListUsers = _.cloneDeep(listUsers);
+        // let index = listUsers.findIndex(item => item.id === user.id);
+        // cloneListUsers[index].firstName = user.firstName;
+        // setListUsers(cloneListUsers);
+        getUsers("", 1, 6);
     }
 
     useEffect(() => {
@@ -75,9 +77,10 @@ const TableUsers = (props) => {
     }
 
     const handleDeleteUserFromModal = (user) => {
-        let cloneListUsers = _.cloneDeep(listUsers);
-        cloneListUsers = cloneListUsers.filter(item => item.id !== user.id);
-        setListUsers(cloneListUsers);
+        // let cloneListUsers = _.cloneDeep(listUsers);
+        // cloneListUsers = cloneListUsers.filter(item => item.id !== user.id);
+        // setListUsers(cloneListUsers);
+        getUsers("", 1, 6);
     }
 
     const handleSort = (sortBy, sortField) => {

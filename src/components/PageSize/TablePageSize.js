@@ -36,20 +36,22 @@ const TablePageSize = (props) => {
     }
 
     const handleUpdateTable = (fileType) => {
-        setListFileType([fileType, ...listFileType]);
+        //setListFileType([fileType, ...listFileType]);
+        getFileTypes("", 1, 6);
 
     }
 
     const handleEditFileTypeFromModal = (fileType) => {
-        let cloneListFileTypes = _.cloneDeep(listFileType);
-        let index = listFileType.findIndex(item => item.id === fileType.id);
-        cloneListFileTypes[index].pageSizeName = fileType.pageSizeName;
-        setListFileType(cloneListFileTypes);
+        // let cloneListFileTypes = _.cloneDeep(listFileType);
+        // let index = listFileType.findIndex(item => item.id === fileType.id);
+        // cloneListFileTypes[index].pageSizeName = fileType.pageSizeName;
+        // setListFileType(cloneListFileTypes);
+        getFileTypes("", 1, 6);
     }
 
     useEffect(() => {
         //call api
-        getFileTypes("",1,6);
+        getFileTypes("", 1, 6);
     }, [])
 
     const getFileTypes = async (keyword, page, perPage) => {
@@ -63,7 +65,7 @@ const TablePageSize = (props) => {
     }
 
     const handlePageClick = (event) => {
-        getFileTypes('',+event.selected + 1, 6)
+        getFileTypes('', +event.selected + 1, 6)
     }
 
     const handleEditFileType = (fileType) => {
@@ -77,9 +79,10 @@ const TablePageSize = (props) => {
     }
 
     const handleDeleteFileTypeFromModal = (fileType) => {
-        let cloneListFileTypes = _.cloneDeep(listFileType);
-        cloneListFileTypes = cloneListFileTypes.filter(item => item.id !== fileType.id);
-        setListFileType(cloneListFileTypes);
+        // let cloneListFileTypes = _.cloneDeep(listFileType);
+        // cloneListFileTypes = cloneListFileTypes.filter(item => item.id !== fileType.id);
+        // setListFileType(cloneListFileTypes);
+        getFileTypes("", 1, 6);
     }
 
     const handleSort = (sortBy, sortField) => {
@@ -99,7 +102,7 @@ const TablePageSize = (props) => {
             setListFileType(cloneListFileTypes);
         }
         else {
-            getFileTypes("",1,6);
+            getFileTypes("", 1, 6);
         }
     }, 500)
 

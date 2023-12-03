@@ -27,20 +27,18 @@ const Login = () => {
     const handleLogin = async () => {
         setObjValidInput(defaultObjValidInput);
         setLoading(true);
-
-        let regx = /\S+@\S+\.\S+/;
-        if (!regx.test(valueLogin)) {
-            setObjValidInput({ ...defaultObjValidInput, isValidValueLogin: false })
-            toast.error("Vui lòng nhập đúng định dạng email!")
-            setLoading(false);
-            return;
-        }
-
         if (!valueLogin) {
             setObjValidInput({ ...defaultObjValidInput, isValidValueLogin: false })
             toast.error("Vui lòng nhập Email!")
             setLoading(false);
 
+            return;
+        }
+        let regx = /\S+@\S+\.\S+/;
+        if (!regx.test(valueLogin)) {
+            setObjValidInput({ ...defaultObjValidInput, isValidValueLogin: false })
+            toast.error("Vui lòng nhập đúng định dạng email!")
+            setLoading(false);
             return;
         }
 
@@ -72,7 +70,7 @@ const Login = () => {
             }
             else {
                 toast.error("Đăng nhập thất bại!");
-        }
+            }
         } catch (error) {
             console.error("Error during login:", error);
             toast.error("Đã có lỗi xảy ra. Vui lòng thử lại sau.");
@@ -93,7 +91,7 @@ const Login = () => {
                 <div className="row px-3 px-sm-0">
                     <div className="content-left col-12 d-none col-sm-7 d-sm-block">
                         <div className='logo-container'>
-                            <img src={logoApp} alt="Logo" className="logo" />
+                            {/* <img src={logoApp} alt="Logo" className="logo" /> */}
                             <div className="brand">
                                 SSPS PRINT
                             </div>

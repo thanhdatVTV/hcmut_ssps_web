@@ -30,11 +30,7 @@ const ModalConfirm = (props) => {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="body-add-new">
-                        This action can't be undone!
-
-                        Do eant to delete thus user?
-                        <br />
-                        <b>email = {dataFileTypeDelete.email}?</b>
+                        Bạn có muốn thực hiện thao tác!
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

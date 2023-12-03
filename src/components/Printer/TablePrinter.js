@@ -36,22 +36,24 @@ const TablePrinter = (props) => {
     }
 
     const handleUpdateTable = (fileType) => {
-        setListFileType([fileType, ...listFileType]);
+        //setListFileType([fileType, ...listFileType]);
+        getFileTypes("", 1, 6);
 
     }
 
     const handleEditFileTypeFromModal = (fileType) => {
-        let cloneListFileTypes = _.cloneDeep(listFileType);
-        let index = listFileType.findIndex(item => item.id === fileType.id);
-        cloneListFileTypes[index].brand = fileType.brand;
-        cloneListFileTypes[index].printerModel = fileType.printerModel;
-        cloneListFileTypes[index].description = fileType.description;
-        setListFileType(cloneListFileTypes);
+        // let cloneListFileTypes = _.cloneDeep(listFileType);
+        // let index = listFileType.findIndex(item => item.id === fileType.id);
+        // cloneListFileTypes[index].brand = fileType.brand;
+        // cloneListFileTypes[index].printerModel = fileType.printerModel;
+        // cloneListFileTypes[index].description = fileType.description;
+        // setListFileType(cloneListFileTypes);
+        getFileTypes("", 1, 6);
     }
 
     useEffect(() => {
         //call api
-        getFileTypes("",1,6);
+        getFileTypes("", 1, 6);
     }, [])
 
     const getFileTypes = async (keyword, page, perPage) => {
@@ -65,7 +67,7 @@ const TablePrinter = (props) => {
     }
 
     const handlePageClick = (event) => {
-        getFileTypes('',+event.selected + 1, 6)
+        getFileTypes('', +event.selected + 1, 6)
     }
 
     const handleEditFileType = (fileType) => {
@@ -79,9 +81,10 @@ const TablePrinter = (props) => {
     }
 
     const handleDeleteFileTypeFromModal = (fileType) => {
-        let cloneListFileTypes = _.cloneDeep(listFileType);
-        cloneListFileTypes = cloneListFileTypes.filter(item => item.id !== fileType.id);
-        setListFileType(cloneListFileTypes);
+        // let cloneListFileTypes = _.cloneDeep(listFileType);
+        // cloneListFileTypes = cloneListFileTypes.filter(item => item.id !== fileType.id);
+        // setListFileType(cloneListFileTypes);
+        getFileTypes("", 1, 6);
     }
 
     const handleSort = (sortBy, sortField) => {
@@ -101,7 +104,7 @@ const TablePrinter = (props) => {
             setListFileType(cloneListFileTypes);
         }
         else {
-            getFileTypes("",1,6);
+            getFileTypes("", 1, 6);
         }
     }, 500)
 
