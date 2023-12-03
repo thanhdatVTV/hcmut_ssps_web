@@ -5,32 +5,36 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import logoApp from '../../assets/images/logo192.png';
 import { useLocation, NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { UserContext } from "../context/UserContext";
 
 const Header = (props) => {
+    const { user, logoutContext } = useContext(UserContext);
+
 
     const navigate = useNavigate();
     const location = useLocation();
     const [isShowHeader, setIsShowHeader] = useState(true);
     const handleLogout = () => {
-        sessionStorage.removeItem("account");
+        // sessionStorage.removeItem("account");
+        // navigate("/login");
+        // setIsShowHeader(false);
+
+        let data = {
+            isAuthenticated: false,
+            token: '',
+            account: null
+        }
+        logoutContext(data);
         navigate("/login");
-        setIsShowHeader(false);
         toast.success("Log out success!")
     }
 
-    useEffect(() => {
-        let session = sessionStorage.getItem('account');
-        if (location.pathname === '/Login' || !session) {
-            setIsShowHeader(false);
-            navigate("/login");
-        }
-    }, [])
 
 
-    return (
-        <>
-            {isShowHeader === true &&
+    if (user && user.isAuthenticated === true || location.pathname === '/') {
+        return (
+            <>
                 <Navbar expand="lg" className="bg-body-tertiary">
                     <Container>
                         <Navbar.Brand href="/">
@@ -64,9 +68,14 @@ const Header = (props) => {
                             </Nav>
                         </Navbar.Collapse>
                     </Container>
-                </Navbar>}
-        </>
-    )
+                </Navbar>
+            </>
+        )
+    }
+    else {
+        return <></>
+    }
+
 }
 
 export default Header;

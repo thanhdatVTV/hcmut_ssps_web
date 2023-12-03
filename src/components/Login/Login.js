@@ -1,12 +1,15 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import './Login.scss'
 import { toast } from 'react-toastify';
 import { loginApi } from '../../services/UserService';
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
+import { UserContext } from '../context/UserContext';
 
 
 const Login = () => {
+    const { loginContext } = useContext(UserContext)
+
     const navigate = useNavigate();
 
     const [valueLogin, setValueLogin] = useState("");
@@ -45,14 +48,18 @@ const Login = () => {
         if (resLogin && +resLogin.status == 1) {
             toast.success("Đăng nhập thành công.");
             let codeId = resLogin.response.type == 0 ? resLogin.response.studentId : resLogin.response.studentId.teacherId;
+            let fullName = resLogin.response.fullName;
             let data = {
                 isAuthenticated: true,
-                codeId: codeId,
-                token: 'fake token'
+                token: 'fake token',
+                account: {
+                    fullName, codeId
+                }
             }
-            sessionStorage.setItem('account', JSON.stringify(data));
-            navigate("/users")
-            window.location.reload();
+            //sessionStorage.setItem('account', JSON.stringify(data));
+            loginContext(data);
+            navigate("/home")
+            //window.location.reload();
         }
         else {
             toast.error("Đăng nhập thất bại!");
@@ -65,14 +72,6 @@ const Login = () => {
         }
     }
 
-    useEffect(() => {
-        let session = sessionStorage.getItem('account');
-        if (session) {
-            navigate("/");
-            window.location.reload();
-        }
-    }, [])
-
     return (
         <div className="login-container">
             <div className="container">
@@ -82,7 +81,7 @@ const Login = () => {
                             SSPS PRINT
                         </div>
                         <div className="detail">
-                            SSPS PRINT Phần mền in ấn của trường Đại Học Bách Khoa TP.HCM
+                            SSPS PRINT giúp bạn in ấn và chia sẻ tài liệu với mọi người một cách dể dàng.
                         </div>
                     </div>
                     <div className="content-right col-sm-5 col-12 d-flex flex-column gap-3 py-3">

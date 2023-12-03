@@ -66,7 +66,7 @@ const Login = () => {
                 className={username && password ? "active" : ""}
                 disabled={username && password ? false : true}
                 onClick={() => handleLogin()}
-            >{loadingApi && <i class="fa-solid fa-sync fa-spin"></i>}&nbsp;Login
+            >{loadingApi && <i className="fa-solid fa-sync fa-spin"></i>}&nbsp;Login
             </button>
             <div className="back">
                 <i className="fa-solid fa-chevron-left"></i> Go back
