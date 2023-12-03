@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
-    console.log('/Home', user)
 
     const redirectToOtherPage = (item) => {
         if (item === 1) {

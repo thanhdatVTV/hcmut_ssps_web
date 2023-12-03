@@ -20,13 +20,11 @@ const UserProvider = ({ children }) => {
         setUser(userData)
     };
 
-    console.log('userCOntex', user)
 
     useEffect(() => {
         let session = sessionStorage.getItem('account');
         if (session) {
             let account = JSON.parse(session);
-            console.log('usercontex-seess', account)
             let codeId = account.account.codeId;
             let fullName = account.account.fullName;
             let data = {

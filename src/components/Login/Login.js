@@ -58,8 +58,6 @@ const Login = () => {
             }
             sessionStorage.setItem('account', JSON.stringify(data));
             loginContext(data);
-            console.log('/Login-data', data)
-            console.log('/Login', user)
             navigate("/")
             //window.location.reload();
         }

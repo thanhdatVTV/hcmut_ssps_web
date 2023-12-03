@@ -9,7 +9,6 @@ const ModalAddNew = (props) => {
 
     const handleSaveUser = async () => {
         let res = await createFileType(typeName);
-        console.log(res);
         if (res && res.response.id) {
             handleClose();
             setTypeName('');

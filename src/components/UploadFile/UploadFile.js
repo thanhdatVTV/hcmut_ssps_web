@@ -24,6 +24,9 @@ const UploadFile = (props) => {
 
   const [apiPageCount, setApiPageCount] = useState(null);
   const [filePageCount, setFilePageCount] = useState(null);
+  const [fileContent, setFileContent] = useState(null);
+  const [showPrintPopup, setShowPrintPopup] = useState(false);
+  const [isRedirectToPagePurchase, setIsRedirectToPagePurchase] = useState(false);
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -57,7 +60,6 @@ const UploadFile = (props) => {
           'https://localhost:7280/api/PagePurchase/get-page-count?codeId=' + user.account.codeId
         );
         const data = await response.json();
-        console.log(data);
         setApiPageCount(data.response.pageCount); // Adjust the property accordingly based on your API response
       } catch (error) {
         console.error('Error fetching API:', error);
@@ -95,39 +97,60 @@ const UploadFile = (props) => {
         props.onFileChange(updatedList);
       }
     }
-    // } else {
-    //     alert('You can only upload up to 5 files.');
-    // }
+    else {
+      alert('You can only upload up to 1 files.');
+    }
   }
 
   const fileRemove = (file) => {
     const updatedList = [...fileList];
     updatedList.splice(fileList.indexOf(file), 1);
     setFileList(updatedList);
+    setFilePageCount(null);
     props.onFileChange(updatedList);
   }
 
+  const handleUpload = async () => {
+    try {
+      if (!fileList) {
+        console.error('No file selected');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('fileData', fileList[0]);
+
+      let response = await fetch('http://localhost:5193/api/Files/PostSingleFile', {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('File uploaded successfully:', result);
+
+        setFileContent(result.response.fileData);
+        setShowPrintPopup(true); // Open the print popup after successful upload
+      } else {
+        console.error('Failed to upload file:', response);
+      }
+    } catch (error) {
+      console.error('Error during file upload:', error);
+    }
+  };
+
+  const closePrintPopup = () => {
+    setShowPrintPopup(false);
+  };
+
+  const printFile = () => {
+    // Implement printing logic here
+    // For demonstration purposes, you can use window.print()
+    window.print();
+  };
+
   return (
     <>
-      {/* {showPopup && (
-            <div className="popup-overlay">
-                <div className="popup">
-                    <div className="popup-header">
-                        <h2>Bạn không đủ số trang</h2>
-                    </div>
-                    <div className="popup-body">
-                        <p>Vui lòng mua thêm trang in để tiếp tục in</p>
-                    </div>
-                    <div className="popup-footer">
-                        <button onClick={goToHome}>Go home</button>
-                        <button onClick={buyMorePages}>Buy more pages</button>
-                    </div>
-                    <button className="close-btn" onClick={closeModal}>
-                        X
-                    </button>
-                </div>
-            </div>
-        )} */}
       <p style={{ fontSize: '18px' }}>Số trang giấy còn lại: {apiPageCount}</p>
       <p style={{ fontSize: '18px' }}>Số trang giấy cần in: {filePageCount}</p>
       <div
@@ -157,14 +180,36 @@ const UploadFile = (props) => {
                     <p>{item.name}</p>
                     <p>{item.size} Byte</p>
                   </div>
+
                   <span className="drop-file-preview__item__del" onClick={() => fileRemove(item)}>x</span>
                 </div>
               ))
             }
+            <button className="drop-file-preview__item__upl" onClick={handleUpload} disabled={!fileList}>
+              Upload File
+            </button>
           </div>
+
         ) : null
       }
 
+      {showPrintPopup && !isRedirectToPagePurchase && (
+        <div className="print-popup">
+          <div className='btn-group'>
+            <button className="btn btn-success" onClick={printFile}>Print</button>
+            <button className="btn btn-secondary" onClick={closePrintPopup}>Close</button>
+          </div>
+          <p>File Content:</p>
+          {/* Use an iframe to render the file content */}
+          <iframe
+            title="File Content"
+            width="100%"
+            height="500px"
+            src={`data:application/pdf;base64,${fileContent}`}
+          />
+
+        </div>
+      )}
       {/* MODAL */}
 
     </>
