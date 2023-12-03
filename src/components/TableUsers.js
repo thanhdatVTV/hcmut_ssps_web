@@ -47,7 +47,7 @@ const TableUsers = (props) => {
 
     useEffect(() => {
         //call api
-        getUsers("",1,6);
+        getUsers("", 1, 6);
     }, [])
 
     const getUsers = async (keyword, page, perPage) => {
@@ -61,7 +61,7 @@ const TableUsers = (props) => {
     }
 
     const handlePageClick = (event) => {
-        getUsers('',+event.selected + 1, 6)
+        getUsers('', +event.selected + 1, 6)
     }
 
     const handleEditUser = (user) => {
@@ -97,7 +97,7 @@ const TableUsers = (props) => {
             setListUsers(cloneListUsers);
         }
         else {
-            getUsers("",1,6);
+            getUsers("", 1, 6);
         }
     }, 500)
 
@@ -106,7 +106,7 @@ const TableUsers = (props) => {
             <div className='user-container'>
                 <div className="my-3 add-new">
                     <span><b>List Users:</b></span>
-                    <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add new user</button>
+                    {/* <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add new user</button> */}
                 </div>
                 <div className='col-4 my-3'>
                     <input
@@ -115,7 +115,7 @@ const TableUsers = (props) => {
                         onChange={(event) => handleSearch(event)}
                     />
                 </div>
-    
+
                 <Table striped bordered hover>
                     <thead>
                         <tr>
@@ -255,7 +255,7 @@ const TableUsers = (props) => {
                                     </span>
                                 </div>
                             </th>
-                            <th>Actions</th>
+                            {/* <th>Actions</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -263,9 +263,9 @@ const TableUsers = (props) => {
                             listUsers.map((item, index) => {
                                 return (
                                     <tr key={`users-${index}`}>
-                                        {item.type 
-                                        ? <td>Teacher</td>
-                                        : <td>Student</td> }
+                                        {item.type
+                                            ? <td>Teacher</td>
+                                            : <td>Student</td>}
                                         <td>{item.codeId}</td>
                                         <td>{item.firstName}</td>
                                         <td>{item.lastName}</td>
@@ -274,7 +274,7 @@ const TableUsers = (props) => {
                                         <td>{item.facultyName}</td>
                                         <td>{item.courseName}</td>
                                         <td>
-                                            <button
+                                            {/* <button
                                                 className='btn btn-warning mx-3'
                                                 onClick={() => handleEditUser(item)}
                                             >Edit</button>
@@ -282,7 +282,7 @@ const TableUsers = (props) => {
                                                 className='btn btn-danger'
                                                 onClick={() => handleDeleteUser(item)}
                                             >Delete
-                                            </button>
+                                            </button> */}
                                         </td>
                                     </tr>
                                 )

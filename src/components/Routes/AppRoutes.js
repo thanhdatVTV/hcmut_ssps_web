@@ -12,6 +12,7 @@ import { UserContext } from "../context/UserContext";
 import Category from "../Category/Category";
 import PurchasePage from '../../components/PurchasePage/PurchasePage';
 import TableUsers from '../TableUsers'
+import Feature from "../Feature/Feature";
 
 const AppRoutes = () => {
     const { user } = useContext(UserContext);
@@ -57,6 +58,7 @@ const AppRoutes = () => {
                     />
                     <Route path='/category' element={<Category />} />
                     <Route path='/purchase' element={<PurchasePage />} />
+                    <Route path='/feature' element={<Feature />} />
                 </Routes>
             </>
         )

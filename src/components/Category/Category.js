@@ -10,13 +10,13 @@ const Category = () => {
     const navigate = useNavigate();
     const redirectToOtherPage = (item) => {
         if (item === 1) {
-            navigate("/upload")
+            navigate("/users")
         }
         if (item === 2) {
-            navigate("/upload")
+            navigate("/feature")
         }
         if (item === 3) {
-            navigate("/upload")
+            navigate("/feature")
         }
         if (item === 4) {
             navigate("/file-type")
@@ -25,10 +25,22 @@ const Category = () => {
             navigate("/page-size")
         }
         if (item === 6) {
-            navigate("/upload")
+            navigate("/feature")
         }
         if (item === 7) {
             navigate("/upload")
+        }
+        if (item === 8) {
+            navigate("/page-size")
+        }
+        if (item === 9) {
+            navigate("/feature")
+        }
+        if (item === 10) {
+            navigate("/feature")
+        }
+        if (item === 11) {
+            navigate("/feature")
         }
     };
 
@@ -43,13 +55,13 @@ const Category = () => {
                     // lg: 32,
                 }
             >
-                <Col className="gutter-row" span={6}>
+                <Col className="gutter-row" onClick={() => redirectToOtherPage(1)} span={6}>
                     <div style={style} className='box-content'>Quản lý User</div>
                 </Col>
-                <Col className="gutter-row" span={6}>
+                <Col className="gutter-row" onClick={() => redirectToOtherPage(2)} span={6}>
                     <div style={style} className='box-content'>Quản lý quyền</div>
                 </Col>
-                <Col className="gutter-row" span={6}>
+                <Col className="gutter-row" onClick={() => redirectToOtherPage(3)} span={6}>
                     <div style={style} className='box-content'>Quản lý phân quyền</div>
                 </Col>
                 {/* <Col className="gutter-row" span={6}>
@@ -59,36 +71,36 @@ const Category = () => {
             <Divider orientation="left" style={{ fontSize: '20px' }}>Quản lý danh mục</Divider>
             <Row gutter={[16, 24]}>
                 <Col className="gutter-row" onClick={() => redirectToOtherPage(4)} span={6}>
-                    <div style={style} className='box-content'>Quản lý loại file</div>
+                    <div style={style} className='box-content'>Quản lý loại tập tin</div>
                 </Col>
                 <Col className="gutter-row" onClick={() => redirectToOtherPage(5)} span={6}>
-                    <div style={style} className='box-content'>Quản lý loại giấy in</div>
+                    <div style={style} className='box-content'>Quản lý loại giấy</div>
                 </Col>
-                <Col className="gutter-row" span={6}>
+                <Col className="gutter-row" onClick={() => redirectToOtherPage(6)} span={6}>
+                    <div style={style} className='box-content'>Quản lý vị trí máy in</div>
+                </Col>
+                <Col className="gutter-row" onClick={() => redirectToOtherPage(7)} span={6}>
+                    <div style={style} className='box-content'>Quản lý Máy in</div>
+                </Col>
+                <Col className="gutter-row" onClick={() => redirectToOtherPage(8)} span={6}>
+                    <div style={style} className='box-content'>Quản lý tập tin hệ thống</div>
+                </Col>
+                <Col className="gutter-row" onClick={() => redirectToOtherPage(9)} span={6}>
+                    <div style={style} className='box-content'>Cấu hình chung cho hệ thống</div>
+                </Col>
+                {/* <Col className="gutter-row" span={6}>
                     <div style={style} className='box-content'>Quản lý loại file</div>
                 </Col>
                 <Col className="gutter-row" span={6}>
                     <div style={style} className='box-content'>Quản lý loại file</div>
-                </Col>
-                <Col className="gutter-row" span={6}>
-                    <div style={style} className='box-content'>Quản lý loại file</div>
-                </Col>
-                <Col className="gutter-row" span={6}>
-                    <div style={style} className='box-content'>Quản lý loại file</div>
-                </Col>
-                <Col className="gutter-row" span={6}>
-                    <div style={style} className='box-content'>Quản lý loại file</div>
-                </Col>
-                <Col className="gutter-row" span={6}>
-                    <div style={style} className='box-content'>Quản lý loại file</div>
-                </Col>
+                </Col> */}
             </Row>
             <Divider orientation="left" style={{ fontSize: '20px' }}>Báo cáo</Divider>
             <Row gutter={16}>
-                <Col className="gutter-row" span={6}>
+                <Col className="gutter-row" onClick={() => redirectToOtherPage(10)} span={6}>
                     <div style={style} className='box-content'>Báo cáo người dùng</div>
                 </Col>
-                <Col className="gutter-row" span={6}>
+                <Col className="gutter-row" onClick={() => redirectToOtherPage(11)} span={6}>
                     <div style={style} className='box-content'>Báo cáo máy in</div>
                 </Col>
                 {/* <Col className="gutter-row" span={6}>
