@@ -6,7 +6,8 @@ import ModalAddNew from './ModalAddNew';
 import ModalEdit from './ModalEdit';
 import ModalConfirm from './ModalConfirm';
 import '../TableUser.scss'
-import _, { debounce } from "lodash"
+import _, { debounce } from "lodash";
+import './PageSize.scss'
 
 
 const TablePageSize = (props) => {
@@ -62,7 +63,7 @@ const TablePageSize = (props) => {
     }
 
     const handlePageClick = (event) => {
-        getFileTypes({ page: +event.selected + 1 })
+        getFileTypes('',+event.selected + 1, 6)
     }
 
     const handleEditFileType = (fileType) => {
@@ -104,116 +105,118 @@ const TablePageSize = (props) => {
 
     return (
         <>
-            <div className="my-3 add-new">
-                <span><b>List page size:</b></span>
-                <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add new page size</button>
-            </div>
-            <div className='col-4 my-3'>
-                <input
-                    className='form-control'
-                    placeholder='Search...'
-                    onChange={(event) => handleSearch(event)}
+            <div className='pageSize-container'>
+                <div className="my-3 add-new">
+                    <span><b>List page size:</b></span>
+                    <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add new page size</button>
+                </div>
+                <div className='col-4 my-3'>
+                    <input
+                        className='form-control'
+                        placeholder='Search...'
+                        onChange={(event) => handleSearch(event)}
+                    />
+                </div>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>
+                                <div className='sort-header'>
+                                    <span>ID</span>
+                                    <span>
+                                        <i
+                                            className="fa-solid fa-arrow-down-long"
+                                            onClick={() => handleSort("desc", "id")}
+                                        >
+                                        </i>
+                                        <i
+                                            className="fa-solid fa-arrow-up-long"
+                                            onClick={() => handleSort("asc", "id")}
+                                        >
+                                        </i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>
+                                <div className='sort-header'>
+                                    <span>Page size Name</span>
+                                    <span>
+                                        <i
+                                            className="fa-solid fa-arrow-down-long"
+                                            onClick={() => handleSort("desc", "pageSizeName")}
+                                        >
+                                        </i>
+                                        <i
+                                            className="fa-solid fa-arrow-up-long"
+                                            onClick={() => handleSort("asc", "pageSizeName")}
+                                        >
+                                        </i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listFileType && listFileType.length > 0 &&
+                            listFileType.map((item, index) => {
+                                return (
+                                    <tr key={`users-${index}`}>
+                                        <td>{item.id}</td>
+                                        <td>{item.pageSizeName}</td>
+                                        <td>
+                                            <button
+                                                className='btn btn-warning mx-3'
+                                                onClick={() => handleEditFileType(item)}
+                                            >Edit</button>
+                                            <button
+                                                className='btn btn-danger'
+                                                onClick={() => handleDeleteFileType(item)}
+                                            >Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </Table>
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={totalPages}
+                    previousLabel="< previous"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName='active'
+                />
+                <ModalAddNew
+                    show={isShowModalAddNew}
+                    handleClose={handleClose}
+                    handleUpdateTable={handleUpdateTable}
+                />
+                <ModalEdit
+                    show={isShowModalEdit}
+                    dataFileTypeEdit={dataFileTypeEdit}
+                    handleClose={handleClose}
+                    handleEditFileTypeFromModal={handleEditFileTypeFromModal}
+                />
+                <ModalConfirm
+                    show={isShowModalDelete}
+                    handleClose={handleClose}
+                    dataFileTypeDelete={dataFileTypeDelete}
+                    handleDeleteFileTypeFromModal={handleDeleteFileTypeFromModal}
                 />
             </div>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>
-                            <div className='sort-header'>
-                                <span>ID</span>
-                                <span>
-                                    <i
-                                        className="fa-solid fa-arrow-down-long"
-                                        onClick={() => handleSort("desc", "id")}
-                                    >
-                                    </i>
-                                    <i
-                                        className="fa-solid fa-arrow-up-long"
-                                        onClick={() => handleSort("asc", "id")}
-                                    >
-                                    </i>
-                                </span>
-                            </div>
-                        </th>
-                        <th>
-                            <div className='sort-header'>
-                                <span>Page size Name</span>
-                                <span>
-                                    <i
-                                        className="fa-solid fa-arrow-down-long"
-                                        onClick={() => handleSort("desc", "pageSizeName")}
-                                    >
-                                    </i>
-                                    <i
-                                        className="fa-solid fa-arrow-up-long"
-                                        onClick={() => handleSort("asc", "pageSizeName")}
-                                    >
-                                    </i>
-                                </span>
-                            </div>
-                        </th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {listFileType && listFileType.length > 0 &&
-                        listFileType.map((item, index) => {
-                            return (
-                                <tr key={`users-${index}`}>
-                                    <td>{item.id}</td>
-                                    <td>{item.pageSizeName}</td>
-                                    <td>
-                                        <button
-                                            className='btn btn-warning mx-3'
-                                            onClick={() => handleEditFileType(item)}
-                                        >Edit</button>
-                                        <button
-                                            className='btn btn-danger'
-                                            onClick={() => handleDeleteFileType(item)}
-                                        >Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </Table>
-            <ReactPaginate
-                breakLabel="..."
-                nextLabel="next >"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={5}
-                pageCount={totalPages}
-                previousLabel="< previous"
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                containerClassName="pagination"
-                activeClassName='active'
-            />
-            <ModalAddNew
-                show={isShowModalAddNew}
-                handleClose={handleClose}
-                handleUpdateTable={handleUpdateTable}
-            />
-            <ModalEdit
-                show={isShowModalEdit}
-                dataFileTypeEdit={dataFileTypeEdit}
-                handleClose={handleClose}
-                handleEditFileTypeFromModal={handleEditFileTypeFromModal}
-            />
-            <ModalConfirm
-                show={isShowModalDelete}
-                handleClose={handleClose}
-                dataFileTypeDelete={dataFileTypeDelete}
-                handleDeleteFileTypeFromModal={handleDeleteFileTypeFromModal}
-            />
         </>)
 }
 

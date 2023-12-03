@@ -6,7 +6,8 @@ import ModalAddNew from './ModalAddNew';
 import ModalEdit from './ModalEdit';
 import ModalConfirm from './ModalConfirm';
 import '../TableUser.scss'
-import _, { debounce } from "lodash"
+import _, { debounce } from "lodash";
+import './Printer.scss'
 
 
 const TablePrinter = (props) => {
@@ -64,7 +65,7 @@ const TablePrinter = (props) => {
     }
 
     const handlePageClick = (event) => {
-        getFileTypes({ page: +event.selected + 1 })
+        getFileTypes('',+event.selected + 1, 6)
     }
 
     const handleEditFileType = (fileType) => {
@@ -106,152 +107,154 @@ const TablePrinter = (props) => {
 
     return (
         <>
-            <div className="my-3 add-new">
-                <span><b>List printer:</b></span>
-                <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add new printer</button>
-            </div>
-            <div className='col-4 my-3'>
-                <input
-                    className='form-control'
-                    placeholder='Search...'
-                    onChange={(event) => handleSearch(event)}
+            <div className='printer-container'>
+                <div className="my-3 add-new">
+                    <span><b>List printer:</b></span>
+                    <button className='btn btn-success' onClick={() => setIsShowModalAddNew(true)}>Add new printer</button>
+                </div>
+                <div className='col-4 my-3'>
+                    <input
+                        className='form-control'
+                        placeholder='Search...'
+                        onChange={(event) => handleSearch(event)}
+                    />
+                </div>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>
+                                <div className='sort-header'>
+                                    <span>ID</span>
+                                    <span>
+                                        <i
+                                            className="fa-solid fa-arrow-down-long"
+                                            onClick={() => handleSort("desc", "id")}
+                                        >
+                                        </i>
+                                        <i
+                                            className="fa-solid fa-arrow-up-long"
+                                            onClick={() => handleSort("asc", "id")}
+                                        >
+                                        </i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>
+                                <div className='sort-header'>
+                                    <span>Brand</span>
+                                    <span>
+                                        <i
+                                            className="fa-solid fa-arrow-down-long"
+                                            onClick={() => handleSort("desc", "brand")}
+                                        >
+                                        </i>
+                                        <i
+                                            className="fa-solid fa-arrow-up-long"
+                                            onClick={() => handleSort("asc", "brand")}
+                                        >
+                                        </i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>
+                                <div className='sort-header'>
+                                    <span>Model</span>
+                                    <span>
+                                        <i
+                                            className="fa-solid fa-arrow-down-long"
+                                            onClick={() => handleSort("desc", "printerModel")}
+                                        >
+                                        </i>
+                                        <i
+                                            className="fa-solid fa-arrow-up-long"
+                                            onClick={() => handleSort("asc", "printerModel")}
+                                        >
+                                        </i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>
+                                <div className='sort-header'>
+                                    <span>Description</span>
+                                    <span>
+                                        <i
+                                            className="fa-solid fa-arrow-down-long"
+                                            onClick={() => handleSort("desc", "description")}
+                                        >
+                                        </i>
+                                        <i
+                                            className="fa-solid fa-arrow-up-long"
+                                            onClick={() => handleSort("asc", "description")}
+                                        >
+                                        </i>
+                                    </span>
+                                </div>
+                            </th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {listFileType && listFileType.length > 0 &&
+                            listFileType.map((item, index) => {
+                                return (
+                                    <tr key={`users-${index}`}>
+                                        <td>{item.id}</td>
+                                        <td>{item.brand}</td>
+                                        <td>{item.printerModel}</td>
+                                        <td>{item.description}</td>
+                                        <td>
+                                            <button
+                                                className='btn btn-warning mx-3'
+                                                onClick={() => handleEditFileType(item)}
+                                            >Edit</button>
+                                            <button
+                                                className='btn btn-danger'
+                                                onClick={() => handleDeleteFileType(item)}
+                                            >Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </Table>
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={totalPages}
+                    previousLabel="< previous"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName='active'
+                />
+                <ModalAddNew
+                    show={isShowModalAddNew}
+                    handleClose={handleClose}
+                    handleUpdateTable={handleUpdateTable}
+                />
+                <ModalEdit
+                    show={isShowModalEdit}
+                    dataFileTypeEdit={dataFileTypeEdit}
+                    handleClose={handleClose}
+                    handleEditFileTypeFromModal={handleEditFileTypeFromModal}
+                />
+                <ModalConfirm
+                    show={isShowModalDelete}
+                    handleClose={handleClose}
+                    dataFileTypeDelete={dataFileTypeDelete}
+                    handleDeleteFileTypeFromModal={handleDeleteFileTypeFromModal}
                 />
             </div>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>
-                            <div className='sort-header'>
-                                <span>ID</span>
-                                <span>
-                                    <i
-                                        className="fa-solid fa-arrow-down-long"
-                                        onClick={() => handleSort("desc", "id")}
-                                    >
-                                    </i>
-                                    <i
-                                        className="fa-solid fa-arrow-up-long"
-                                        onClick={() => handleSort("asc", "id")}
-                                    >
-                                    </i>
-                                </span>
-                            </div>
-                        </th>
-                        <th>
-                            <div className='sort-header'>
-                                <span>Brand</span>
-                                <span>
-                                    <i
-                                        className="fa-solid fa-arrow-down-long"
-                                        onClick={() => handleSort("desc", "brand")}
-                                    >
-                                    </i>
-                                    <i
-                                        className="fa-solid fa-arrow-up-long"
-                                        onClick={() => handleSort("asc", "brand")}
-                                    >
-                                    </i>
-                                </span>
-                            </div>
-                        </th>
-                        <th>
-                            <div className='sort-header'>
-                                <span>Model</span>
-                                <span>
-                                    <i
-                                        className="fa-solid fa-arrow-down-long"
-                                        onClick={() => handleSort("desc", "printerModel")}
-                                    >
-                                    </i>
-                                    <i
-                                        className="fa-solid fa-arrow-up-long"
-                                        onClick={() => handleSort("asc", "printerModel")}
-                                    >
-                                    </i>
-                                </span>
-                            </div>
-                        </th>
-                        <th>
-                            <div className='sort-header'>
-                                <span>Description</span>
-                                <span>
-                                    <i
-                                        className="fa-solid fa-arrow-down-long"
-                                        onClick={() => handleSort("desc", "description")}
-                                    >
-                                    </i>
-                                    <i
-                                        className="fa-solid fa-arrow-up-long"
-                                        onClick={() => handleSort("asc", "description")}
-                                    >
-                                    </i>
-                                </span>
-                            </div>
-                        </th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {listFileType && listFileType.length > 0 &&
-                        listFileType.map((item, index) => {
-                            return (
-                                <tr key={`users-${index}`}>
-                                    <td>{item.id}</td>
-                                    <td>{item.brand}</td>
-                                    <td>{item.printerModel}</td>
-                                    <td>{item.description}</td>
-                                    <td>
-                                        <button
-                                            className='btn btn-warning mx-3'
-                                            onClick={() => handleEditFileType(item)}
-                                        >Edit</button>
-                                        <button
-                                            className='btn btn-danger'
-                                            onClick={() => handleDeleteFileType(item)}
-                                        >Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            )
-                        })
-                    }
-                </tbody>
-            </Table>
-            <ReactPaginate
-                breakLabel="..."
-                nextLabel="next >"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={5}
-                pageCount={totalPages}
-                previousLabel="< previous"
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                containerClassName="pagination"
-                activeClassName='active'
-            />
-            <ModalAddNew
-                show={isShowModalAddNew}
-                handleClose={handleClose}
-                handleUpdateTable={handleUpdateTable}
-            />
-            <ModalEdit
-                show={isShowModalEdit}
-                dataFileTypeEdit={dataFileTypeEdit}
-                handleClose={handleClose}
-                handleEditFileTypeFromModal={handleEditFileTypeFromModal}
-            />
-            <ModalConfirm
-                show={isShowModalDelete}
-                handleClose={handleClose}
-                dataFileTypeDelete={dataFileTypeDelete}
-                handleDeleteFileTypeFromModal={handleDeleteFileTypeFromModal}
-            />
         </>)
 }
 

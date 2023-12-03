@@ -6,7 +6,8 @@ import ModalAddNew from './ModalAddNew';
 import ModalEdit from './ModalEdit';
 import ModalConfirm from './ModalConfirm';
 import '../TableUser.scss'
-import _, { debounce } from "lodash"
+import _, { debounce } from "lodash";
+import './FileType.scss'
 
 
 const TableFileType = (props) => {

@@ -1,7 +1,7 @@
 import axios from "../services/customize-axios";
 
 const getPageSizeList = (keyword, pageNumber, perPage) => {
-    return axios.get(`/api/PageSize/get-list-page-size?keyword=${keyword}&page=${pageNumber}&per_page=${perPage}`)
+    return axios.get(`/api/PageSize/get-list-page-size?keyword=${keyword}&pageNumber=${pageNumber}&per_page=${perPage}`)
 }
 
 const createPageSize = (pageSizeName) => {

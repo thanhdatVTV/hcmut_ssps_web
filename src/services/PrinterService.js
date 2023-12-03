@@ -1,7 +1,7 @@
 import axios from "../services/customize-axios";
 
 const getPrinterList = (keyword, pageNumber, perPage) => {
-    return axios.get(`/api/Printer/get-list-printer?keyword=${keyword}&page=${pageNumber}&per_page=${perPage}`)
+    return axios.get(`/api/Printer/get-list-printer?keyword=${keyword}&pageNumber=${pageNumber}&per_page=${perPage}`)
 }
 
 const createPrinter = (brand, printerModel, description) => {
