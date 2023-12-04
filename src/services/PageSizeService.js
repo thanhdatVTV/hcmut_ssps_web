@@ -9,7 +9,7 @@ const createPageSize = (pageSizeName) => {
 }
 
 const updatePageSize = (id, pageSizeName) => {
-    return axios.put(`/api/PageSize/update-page-size?id=${id}&pageSizeName=${pageSizeName}`);
+    return axios.post(`/api/PageSize/update-page-size?id=${id}&pageSizeName=${pageSizeName}`);
 }
 
 const deletePageSize = (id) => {

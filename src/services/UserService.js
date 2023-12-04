@@ -9,7 +9,7 @@ const postCreateUser = (codeId, lastName, firstName, fullName, dateOfBirth, facu
 }
 
 const putUpdateUser = (name, job) => {
-    return axios.put("/api/users/2", { name, job });
+    return axios.post("/api/users/2", { name, job });
 }
 
 const deleteUser = (id) => {

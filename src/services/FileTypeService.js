@@ -10,7 +10,7 @@ const createFileType = (typeName) => {
 }
 
 const updateFileType = (id, typeName) => {
-    return axios.put(`/api/FileType/update-file-type?id=${id}&typeName=${typeName}`);
+    return axios.post(`/api/FileType/update-file-type?id=${id}&typeName=${typeName}`);
 }
 
 const deleteFileType = (id) => {

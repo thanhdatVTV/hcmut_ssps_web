@@ -9,7 +9,7 @@ const createPrinter = (brand, printerModel, description) => {
 }
 
 const updatePrinter = (id, brand, printerModel, description) => {
-    return axios.put(`/api/Printer/update-printer?id=${id}&brand=${brand}&printerModel=${printerModel}&description=${description}`);
+    return axios.post(`/api/Printer/update-printer?id=${id}&brand=${brand}&printerModel=${printerModel}&description=${description}`);
 }
 
 const deletePrinter = (id) => {
